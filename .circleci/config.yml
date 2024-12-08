@@ -1,0 +1,23 @@
+version: 2.1
+
+executors:
+  windows:
+    machine:
+      image: windows-server-2019
+    shell: powershell.exe
+
+jobs:
+  build:
+    executor: windows
+    steps:
+      - checkout
+      - run:
+          name: Install Python and Pip Dependencies
+          command: |
+            python --version
+            python -m ensurepip --upgrade
+            python -m pip install --upgrade pip
+            pip install pathlib2
+            pip install -r requirements.txt
+            pip3 install pyinstaller==3.5
+            pyinstaller __main__.spec
