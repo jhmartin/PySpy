@@ -350,6 +350,7 @@ class Frame(wx.Frame):
         Assigns the various widgets to sizers and calls a number of helper
         functions.
         '''
+        sizer_main.DisableConsistencyChecks(True)
         sizer_main = wx.BoxSizer(wx.VERTICAL)
         sizer_bottom = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.grid, 1, wx.EXPAND, 0)
@@ -1147,7 +1148,7 @@ class Frame(wx.Frame):
 
 class App(wx.App):
     def OnInit(self):
-        self.PySpy = Frame(None, wx.ID_ANY, "")
+        self.PySpy = Frame(None, wx.ID_ANY, "s")
         self.SetTopWindow(self.PySpy)
         self.PySpy.Show()
         Logging.info("foo")
