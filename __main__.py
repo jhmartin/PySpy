@@ -94,11 +94,11 @@ def analyze_chars(char_names):
 
 app = gui.App(redirect=True,filename="mylogfile.txt")  # Has to be defined before background thread starts.
 
-#background_thread = threading.Thread(
-#    target=watch_clpbd,
-#    daemon=True
-#    )
-#background_thread.start()
+background_thread = threading.Thread(
+    target=watch_clpbd,
+    daemon=True
+    )
+background_thread.start()
 
 #update_checker = threading.Thread(
 #    target=chkversion.chk_github_update,
