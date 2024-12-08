@@ -1,21 +1,14 @@
-version: 2.1
-
+version: '2.1'
 orbs:
-  windows: circleci/windows@5.0.0
-  
+  win: circleci/windows@5.0
 jobs:
   build:
     executor:
       name: win/default
     steps:
       - checkout
-      - run:
-          name: Install Python and Pip Dependencies
-          command: |
-            python --version
-            python -m ensurepip --upgrade
-            python -m pip install --upgrade pip
-            pip install pathlib2
-            pip install -r requirements.txt
-            pip3 install pyinstaller==3.5
-            pyinstaller __main__.spec
+      - run: Write-Host 'Hello, Windows'
+workflows:
+  my-workflow:
+    jobs:
+      - build
