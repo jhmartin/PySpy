@@ -1147,7 +1147,6 @@ class Frame(wx.Frame):
 
 class App(wx.App):
     def OnInit(self):
-        self.DisableConsistencyChecks()
         self.PySpy = Frame(None, wx.ID_ANY, "")
         self.SetTopWindow(self.PySpy)
         self.PySpy.Show()
