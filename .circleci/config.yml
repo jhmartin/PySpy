@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Install Python and Pip Dependencies
           command: |
-            choco install python3 --version=3.7.4
+            choco install python3 --version=3.7.4 --allow-downgrade
             python --version
             python -m ensurepip --upgrade
             python -m pip install --upgrade pip
