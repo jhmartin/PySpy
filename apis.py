@@ -67,7 +67,7 @@ class Query_zKill(threading.Thread):
             )
         headers = {
             "Accept-Encoding": "gzip",
-            "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
+            "User-Agent": "PySpy, Author: jhmartin@toger.us"
             }
         try:
             r = requests.get(url, headers=headers)
@@ -161,7 +161,7 @@ def post_proprietary_db(character_ids):
     :param `character_ids`: List or tuple of character ids as integers.
     :return: JSON dictionary containing certain statistics for each id.
     '''
-    url = "http://pyspy.pythonanywhere.com" + "/character_intel/" + "v1/"
+    url = "http://pyspy.toger.us" + "/character_intel/" + "v1/"
     headers = {
         "Accept-Encoding": "gzip",
         "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
