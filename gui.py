@@ -350,8 +350,8 @@ class Frame(wx.Frame):
         Assigns the various widgets to sizers and calls a number of helper
         functions.
         '''
-        wx.Sizer.DisableConsistencyChecks(True)
         sizer_main = wx.BoxSizer(wx.VERTICAL)
+        sizer_main.DisableConsistencyChecks()
         sizer_bottom = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.grid, 1, wx.EXPAND, 0)
         sizer_bottom.Add(self.status_label, 1, wx.ALIGN_CENTER_VERTICAL, 0)
