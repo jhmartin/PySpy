@@ -1150,5 +1150,4 @@ class App(wx.App):
         self.PySpy = Frame(None, wx.ID_ANY, "")
         self.SetTopWindow(self.PySpy)
         self.PySpy.Show()
-        Logging.info("foo")
         return True
