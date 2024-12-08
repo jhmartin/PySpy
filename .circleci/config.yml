@@ -1,14 +1,12 @@
 version: 2.1
 
-executors:
-  windows:
-    machine:
-      image: windows-server-2019
-    shell: powershell.exe
-
+orbs:
+  windows: circleci/windows@5.0.0
+  
 jobs:
   build:
-    executor: win/server-2022
+    executor:
+      name: win/default
     steps:
       - checkout
       - run:
