@@ -29,6 +29,11 @@ import db
 # // cSpell:words russsian, ccp's, pyperclip, chkversion, clpbd, gui
 # **********************************************************************
 Logger = logging.getLogger(__name__)
+logging.basicConfig(filename='logfile.txt',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.DEBUG)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
 
