@@ -21,6 +21,6 @@ jobs:
           path: dist/PySpy.exe
           destination: PySpy.exe
 workflows:
-  my-workflow:
+  workflow:
     jobs:
       - build
