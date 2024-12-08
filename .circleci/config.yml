@@ -8,9 +8,18 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install and set Python 3.7.4
+          shell: powershell.exe
+          command: |
+            choco install pyenv-win --force
+            refreshenv
+            pyenv install 3.7.4
+            pyenv global 3.7.4
+            $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
+            python --version
+      - run:
           name: Install Python and Pip Dependencies
           command: |
-            choco install python3 --version=3.7.4 --allow-downgrade
             python --version
             python -m ensurepip --upgrade
             python -m pip install --upgrade pip
