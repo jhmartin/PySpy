@@ -18,13 +18,14 @@ jobs:
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
       - run:
-          name: Install Python and Pip Dependencies
+          name: Build PySpy
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
             python -m ensurepip --upgrade
             python -m pip install --upgrade pip
             pip install pathlib2
+            pip install attrdict
             pip install -r requirements.txt
             pip3 install pyinstaller==3.5
             pyinstaller __main__.spec
