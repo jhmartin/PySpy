@@ -8,6 +8,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Install Python"
+          command: choco install python --version=3.7.9
+      - run:
           name: Install Python and Pip Dependencies
           command: |
             python --version
