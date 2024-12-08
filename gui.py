@@ -356,7 +356,7 @@ class Frame(wx.Frame):
         sizer_bottom.Add(self.status_label, 1, wx.ALIGN_CENTER_VERTICAL, 0)
         static_line = wx.StaticLine(self, wx.ID_ANY, style=wx.LI_VERTICAL)
         sizer_bottom.Add(static_line, 0, wx.EXPAND, 0)
-        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_RIGHT, 0)
+        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_BOTTOM, 0)
         sizer_main.Add(sizer_bottom, 0, wx.ALIGN_BOTTOM | wx.ALL | wx.EXPAND, 1)
         self.SetSizer(sizer_main)
         self.Layout()
