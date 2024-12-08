@@ -24,7 +24,7 @@ jobs:
             python --version
             python -m ensurepip --upgrade
             python -m pip install --upgrade pip
-            pip uninstall attrdict attrdict3 wheel setuptools
+            pip uninstall attrdict attrdict3 wheel setuptools -y
             pip install -U wheel setuptools
             pip install pathlib2
             pip install -U attrdict3
