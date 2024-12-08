@@ -351,7 +351,6 @@ class Frame(wx.Frame):
         functions.
         '''
         sizer_main = wx.BoxSizer(wx.VERTICAL)
-        sizer_main.DisableConsistencyChecks()
         sizer_bottom = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.grid, 1, wx.EXPAND, 0)
         sizer_bottom.Add(self.status_label, 1, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -1148,7 +1147,8 @@ class Frame(wx.Frame):
 
 class App(wx.App):
     def OnInit(self):
-        self.PySpy = Frame(None, wx.ID_ANY, "s")
+        self.DisableConsistencyChecks()
+        self.PySpy = Frame(None, wx.ID_ANY, "")
         self.SetTopWindow(self.PySpy)
         self.PySpy.Show()
         Logging.info("foo")
