@@ -29,7 +29,7 @@ jobs:
             pip install pathlib2
             pip install -U attrdict3
             pip install -r requirements.txt
-            pip3 install pyinstaller==3.5
+            pip3 install pyinstaller
             pyinstaller __main__.spec
       - store_artifacts:
           path: dist/PySpy.exe
