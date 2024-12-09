@@ -170,7 +170,8 @@ def get_affil_names(conn, cur):
         Logger.info("Failed request corporation and alliance names.",
                     exc_info=True)
         raise Exception
-
+    Logger.info("Completed post_req_ccp")
+    
     alliances, corporations = (), ()
     for r in names:
         if r["category"] == "alliance":
