@@ -46,6 +46,7 @@ class ReportStats(threading.Thread):
         self._gui_alpha = config.OPTIONS_OBJECT.Get("GuiAlpha", 250)
 
     def run(self):
+        return
         url = "http://pyspy.pythonanywhere.com/add_record/"
         headers = {
             "Accept-Encoding": "gzip",
