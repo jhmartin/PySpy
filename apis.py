@@ -22,6 +22,7 @@ import statusmsg
 Logger = logging.getLogger(__name__)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
+s = requests.Session()
 
 # ESI Status
 # https://esi.evetech.net/ui/?version=meta#/Meta/get_status
@@ -156,39 +157,42 @@ def post_proprietary_db(character_ids):
     '''
     Query PySpy's proprietary kill database for the character ids
     provided as a list or tuple of integers. Returns a JSON containing
-    one line per character id.
+    one character id results. We use GET / just one id at a time for CDN cachability.
 
     :param `character_ids`: List or tuple of character ids as integers.
-    :return: JSON dictionary containing certain statistics for each id.
+    :return: Array containing  statistics for each id.
     '''
-    url = "http://pyspy.pythonanywhere.com" + "/character_intel/" + "v1/"
+    url = "http://pyspy.pythonanywhere.com" + "/character_intel/" + "v2/"
     headers = {
         "Accept-Encoding": "gzip",
-        "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
+        "User-Agent": "PySpy, https://github.com/jhmartin/PySpy"
         }
     # Character_ids is a list of tuples, which needs to be converted to dict
     # with list as value.
-    character_ids = {"character_ids": character_ids}
-    try:
-        r = requests.post(url, headers=headers, json=character_ids)
-    except requests.exceptions.ConnectionError:
-        Logger.info("No network connection.", exc_info=True)
-        statusmsg.push_status(
-            "NETWORK ERROR: Check your internet connection and firewall settings."
-            )
-        time.sleep(5)
-        return "network_error"
-    if r.status_code != 200:
-        server_msg = json.loads(r.text)["error"]
-        Logger.info(
-            "PySpy server returned error code: " +
-            str(r.status_code) + ", saying: " + server_msg, exc_info=True
-            )
-        statusmsg.push_status(
-            "PYSPY SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
-            )
-        return "server_error"
-    return r.json()
+    results = []
+    for character_id in character_ids:
+      try:
+          r = requests.get(url, headers=headers, params={'character_id' : character_id})
+      except requests.exceptions.ConnectionError:
+          Logger.info("No network connection.", exc_info=True)
+          statusmsg.push_status(
+              "NETWORK ERROR: Check your internet connection and firewall settings."
+              )
+          time.sleep(5)
+          return "network_error"
+      if r.status_code != 200:
+          server_msg = json.loads(r.text)["error"]
+          Logger.info(
+              "PySpy server returned error code: " +
+              str(r.status_code) + ", saying: " + server_msg, exc_info=True
+              )
+          statusmsg.push_status(
+              "PYSPY SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
+              )
+          return "server_error"
+      results.append(r.json())
+    return results
+    
 
 
 def get_ship_data():
