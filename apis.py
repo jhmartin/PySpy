@@ -161,7 +161,7 @@ def post_proprietary_db(character_ids):
     :param `character_ids`: List or tuple of character ids as integers.
     :return: Array containing  statistics for each id.
     '''
-    url = "http://pyspy.pythonanywhere.com" + "/character_intel/" + "v2/"
+    url = "http://pyspy.toger.us" + "/character_intel/" + "v2/"
     headers = {
         "Accept-Encoding": "gzip",
         "User-Agent": "PySpy, https://github.com/jhmartin/PySpy"
