@@ -189,7 +189,7 @@ def post_proprietary_db(character_ids):
               "PYSPY SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
               )
           return "server_error"
-      results.append(r.json())
+      results.extend(r.json())
     return results
 
 def get_ship_data():
