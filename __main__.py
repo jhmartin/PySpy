@@ -65,7 +65,12 @@ def analyze_chars(char_names):
     start_time = time.time()
     wx.CallAfter(app.PySpy.grid.ClearGrid)
     try:
-        outlist = analyze.main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk)
+        outlist = analyze.main(
+            char_names,
+            conn_mem,
+            cur_mem,
+            conn_dsk,
+            cur_dsk)
         duration = round(time.time() - start_time, 1)
         reportstats.ReportStats(outlist, duration).start()
         if outlist is not None:
@@ -75,11 +80,11 @@ def analyze_chars(char_names):
                 app.PySpy.sortOutlist,
                 outlist=outlist,
                 duration=duration
-                )
+            )
         else:
             statusmsg.push_status(
                 "No valid character names found. Please try again..."
-                )
+            )
     except Exception:
         Logger.error(
             "Failed to collect character information. Clipboard "
@@ -87,18 +92,19 @@ def analyze_chars(char_names):
         )
 
 
-app = gui.App(redirect=True,filename="pyspy.log")  # Has to be defined before background thread starts.
+# Has to be defined before background thread starts.
+app = gui.App(redirect=True, filename="pyspy.log")
 
 background_thread = threading.Thread(
     target=watch_clpbd,
     daemon=True
-    )
+)
 background_thread.start()
 
-#update_checker = threading.Thread(
+# update_checker = threading.Thread(
 #    target=chkversion.chk_github_update,
 #    daemon=True
 #    )
-#update_checker.start()
+# update_checker.start()
 
 app.MainLoop()
