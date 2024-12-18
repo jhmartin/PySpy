@@ -1,7 +1,7 @@
 # !/usr/local/bin/python3.6
 # MIT licensed
 # Copyright (c) 2018 White Russsian
-# Github: <https://github.com/Eve-PySpy/PySpy>**********************
+# Github: <https://github.com/jhmartin/PySpy>**********************
 ''' This module provides connectivity to CCP's ESI API, to zKillboard's
 API and to PySpy's own proprietary RESTful API.
 '''
@@ -35,7 +35,7 @@ def post_req_ccp(esi_path, json_data):
         Logger.info("No network connection.", exc_info=True)
         statusmsg.push_status(
             "NETWORK ERROR: Check your internet connection and firewall settings."
-            )
+        )
         time.sleep(5)
         return "network_error"
     if r.status_code != 200:
@@ -43,10 +43,10 @@ def post_req_ccp(esi_path, json_data):
         Logger.info(
             "CCP Servers at (" + esi_path + ") returned error code: " +
             str(r.status_code) + ", saying: " + server_msg, exc_info=True
-            )
+        )
         statusmsg.push_status(
             "CCP SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
-            )
+        )
         return "server_error"
     return r.json()
 
@@ -64,11 +64,11 @@ class Query_zKill(threading.Thread):
         url = (
             "https://zkillboard.com/api/stats/characterID/" +
             str(self._char_id) + "/"
-            )
+        )
         headers = {
             "Accept-Encoding": "gzip",
-            "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
-            }
+            "User-Agent": "PySpy, jhmartin@toger.us"
+        }
         try:
             r = requests.get(url, headers=headers)
         except requests.exceptions.ConnectionError:
@@ -76,22 +76,23 @@ class Query_zKill(threading.Thread):
             statusmsg.push_status(
                 '''NETWORK ERROR: Check your internet connection
                 and firewall settings.'''
-                )
+            )
             time.sleep(5)
             return "network error"
         if r.status_code != 200:
             server_msg = "N/A"
             try:
                 server_msg = json.loads(r.text)["error"]
-            except:
+            except BaseException:
                 pass
             Logger.info(
                 "zKillboard server returned error for character ID " +
                 str(self._char_id) + ". Error code: " + str(r.status_code),
                 exc_info=True
-                )
+            )
             statusmsg.push_status(
-                "ZKILL SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
+                "ZKILL SERVER ERROR: " +
+                str(r.status_code) + " (" + server_msg + ")"
             )
             return "server error"
         try:
@@ -147,48 +148,53 @@ class Query_zKill(threading.Thread):
 
         self._queue.put(
             [kills, blops_kills, hic_losses, week_kills, losses, solo_ratio,
-            sec_status, self._char_id]
-            )
+             sec_status, self._char_id]
+        )
         return
 
 
 def post_proprietary_db(character_ids):
     '''
     Query PySpy's proprietary kill database for the character ids
-    provided as a list or tuple of integers. Returns a JSON containing
-    one line per character id.
+    provided as a list or tuple of integers. Returns a list of JSON dicts
+    with results. We use GET / just one id at a time for CDN cachability.
 
     :param `character_ids`: List or tuple of character ids as integers.
-    :return: JSON dictionary containing certain statistics for each id.
+    :return: Array containing  statistics for each id.
     '''
-    url = "http://pyspy.pythonanywhere.com" + "/character_intel/" + "v1/"
+    url = "http://pyspy.toger.us" + "/character_intel/" + "v2/"
     headers = {
         "Accept-Encoding": "gzip",
-        "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
-        }
+        "User-Agent": "PySpy, https://github.com/jhmartin/PySpy"
+    }
     # Character_ids is a list of tuples, which needs to be converted to dict
     # with list as value.
-    character_ids = {"character_ids": character_ids}
-    try:
-        r = requests.post(url, headers=headers, json=character_ids)
-    except requests.exceptions.ConnectionError:
-        Logger.info("No network connection.", exc_info=True)
-        statusmsg.push_status(
-            "NETWORK ERROR: Check your internet connection and firewall settings."
+    results = []
+    for character_id in character_ids:
+        try:
+            r = requests.get(
+                url, headers=headers, params={
+                    'character_id': character_id})
+        except requests.exceptions.ConnectionError:
+            Logger.info("No network connection.", exc_info=True)
+            statusmsg.push_status(
+                "NETWORK ERROR: Check your internet connection and firewall settings."
             )
-        time.sleep(5)
-        return "network_error"
-    if r.status_code != 200:
-        server_msg = json.loads(r.text)["error"]
-        Logger.info(
-            "PySpy server returned error code: " +
-            str(r.status_code) + ", saying: " + server_msg, exc_info=True
+            time.sleep(5)
+            return "network_error"
+        if r.status_code != 200:
+            server_msg = json.loads(r.text)["error"]
+            Logger.info(
+                "PySpy server returned error code: " +
+                str(r.status_code) + ", saying: " + server_msg, exc_info=True
             )
-        statusmsg.push_status(
-            "PYSPY SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
+            statusmsg.push_status(
+                "PYSPY SERVER ERROR: " +
+                str(r.status_code) + " (" + server_msg + ")"
             )
-        return "server_error"
-    return r.json()
+            return "server_error"
+        results.extend(r.json())
+    return results
 
 
 def get_ship_data():
@@ -200,7 +206,9 @@ def get_ship_data():
     '''
     all_ship_ids = get_all_ship_ids()
     if not isinstance(all_ship_ids, (list, tuple)) or len(all_ship_ids) < 1:
-        Logger.error("[get_ship_data] No valid ship ids provided.", exc_info=True)
+        Logger.error(
+            "[get_ship_data] No valid ship ids provided.",
+            exc_info=True)
         return
 
     url = "https://esi.evetech.net/v2/universe/names/?datasource=tranquility"
@@ -215,7 +223,7 @@ def get_ship_data():
         Logger.error(
             "[get_ship_data] CCP Servers returned error code: " +
             str(r.status_code) + ", saying: " + server_msg, exc_info=True
-            )
+        )
         return "server_error"
     ship_data = list(map(lambda r: [r['id'], r['name']], r.json()))
     return ship_data
@@ -239,9 +247,10 @@ def get_all_ship_ids():
         Logger.error(
             "[get_ship_ids] CCP Servers at returned error code: " +
             str(r.status_code) + ", saying: " + server_msg, exc_info=True
-            )
+        )
         return "server_error"
 
     ship_ids = list(map(lambda r: str(r['type_id']), r.json()))
-    Logger.info("[get_ship_ids] Number of ship ids found: " + str(len(ship_ids)))
+    Logger.info("[get_ship_ids] Number of ship ids found: " +
+                str(len(ship_ids)))
     return ship_ids
