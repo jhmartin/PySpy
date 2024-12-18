@@ -32,6 +32,7 @@ class ReportStats(threading.Thread):
     return any values, regardless of successful upload or failure.
     '''
     # Report stats in separate thread. Do not complain if error encountered.
+
     def __init__(self, outlist, duration):
         super(ReportStats, self).__init__()
         self.daemon = True
@@ -51,7 +52,7 @@ class ReportStats(threading.Thread):
         headers = {
             "Accept-Encoding": "gzip",
             "User-Agent": "PySpy, Author: White Russsian, https://github.com/WhiteRusssian/PySpy"
-            }
+        }
         payload = {
             "uuid": self._uuid,
             "version": self._version,
@@ -62,7 +63,7 @@ class ReportStats(threading.Thread):
             "hl_blops": self._hl_blops,
             "ig_factions": self._ig_factions,
             "gui_alpha": self._gui_alpha
-            }
+        }
 
         try:
             r = requests.get(url, headers=headers, params=payload)
@@ -71,7 +72,7 @@ class ReportStats(threading.Thread):
             statusmsg.push_status(
                 '''NETWORK ERROR: Check your internet connection
                 and firewall settings.'''
-                )
+            )
             time.sleep(5)
             return
 
@@ -80,7 +81,8 @@ class ReportStats(threading.Thread):
             reason = r.reason
             Logger.info(
                 "Could not upload usage statistics. Server message: '" +
-                reason + "'. Code: " + str(status_code) + " [URL: " + r.url + "]",
+                reason + "'. Code: " +
+                str(status_code) + " [URL: " + r.url + "]",
                 exc_info=True
-                )
+            )
         return
