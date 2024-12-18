@@ -37,7 +37,8 @@ class Frame(wx.Frame):
         # Persistent Options
         self.options = config.OPTIONS_OBJECT
 
-        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE  # wx.RESIZE_BORDER
+        kwds["style"] = kwds.get(
+            "style", 0) | wx.DEFAULT_FRAME_STYLE  # wx.RESIZE_BORDER
         wx.Frame.__init__(self, *args, **kwds)
         self.SetName("Main Window")
 
@@ -49,48 +50,73 @@ class Frame(wx.Frame):
 
         # Set parameters for columns
         self.columns = (
-            # Index, Heading, Format, Default Width, Can Toggle, Default Show, Menu Name, Outlist Column
+            # Index, Heading, Format, Default Width, Can Toggle, Default Show,
+            # Menu Name, Outlist Column
             [0, "ID", wx.ALIGN_LEFT, 0, False, False, "", 0],
             [1, "Warning", wx.ALIGN_LEFT, 80, True, True, "Warning\tCTRL+ALT+X"],
             [2, "Faction ID", wx.ALIGN_LEFT, 0, False, False, "", 1],
             [3, "Character", wx.ALIGN_LEFT, 100, False, True, "", 2],
-            [4, "Security", wx.ALIGN_RIGHT, 50, True, False, "&Security\tCTRL+ALT+S", 15],
+            [4, "Security", wx.ALIGN_RIGHT, 50, True,
+                False, "&Security\tCTRL+ALT+S", 15],
             [5, "CorpID", wx.ALIGN_LEFT, 0, False, False, "", 3],
-            [6, "Corporation", wx.ALIGN_LEFT, 100, True, True, "Cor&poration\tCTRL+ALT+P", 4],
+            [6, "Corporation", wx.ALIGN_LEFT, 100, True,
+                True, "Cor&poration\tCTRL+ALT+P", 4],
             [7, "AllianceID", wx.ALIGN_LEFT, 0, False, False, "-", 5],
-            [8, "Alliance", wx.ALIGN_LEFT, 150, True, True, "All&iance\tCTRL+ALT+I", 6],
-            [9, "Faction", wx.ALIGN_LEFT, 50, True, False, "&Faction\tCTRL+ALT+F", 7],
-            [10, "Kills", wx.ALIGN_RIGHT, 50, True, True, "&Kills\tCTRL+ALT+K", 10],
-            [11, "Losses", wx.ALIGN_RIGHT, 50, True, True, "&Losses\tCTRL+ALT+L", 13],
-            [12, "Last Wk", wx.ALIGN_RIGHT, 50, True, True, "Last &Wk\tCTRL+ALT+W", 9],
+            [8, "Alliance", wx.ALIGN_LEFT, 150, True,
+                True, "All&iance\tCTRL+ALT+I", 6],
+            [9, "Faction", wx.ALIGN_LEFT, 50, True,
+                False, "&Faction\tCTRL+ALT+F", 7],
+            [10, "Kills", wx.ALIGN_RIGHT, 50, True,
+                True, "&Kills\tCTRL+ALT+K", 10],
+            [11, "Losses", wx.ALIGN_RIGHT, 50, True,
+                True, "&Losses\tCTRL+ALT+L", 13],
+            [12, "Last Wk", wx.ALIGN_RIGHT, 50, True,
+                True, "Last &Wk\tCTRL+ALT+W", 9],
             [13, "Solo", wx.ALIGN_RIGHT, 50, True, False, "S&olo\tCTRL+ALT+O", 14],
-            [14, "BLOPS", wx.ALIGN_RIGHT, 50, True, False, "&BLOPS\tCTRL+ALT+B", 11],
+            [14, "BLOPS", wx.ALIGN_RIGHT, 50, True,
+                False, "&BLOPS\tCTRL+ALT+B", 11],
             [15, "HICs", wx.ALIGN_RIGHT, 50, True, False, "&HICs\tCTRL+ALT+H", 12],
-            [16, "Last Loss", wx.ALIGN_RIGHT, 60, True, True, "Days since last Loss\tCTRL+ALT+[", 16],
-            [17, "Last Kill", wx.ALIGN_RIGHT, 60, True, True, "Days since last Kill\tCTRL+ALT+]", 17],
-            [18, "Avg. Attackers", wx.ALIGN_RIGHT, 100, True, True, "&Average Attackers\tCTRL+ALT+A", 18],
-            [19, "Covert Cyno", wx.ALIGN_RIGHT, 100, True, True, "&Covert Cyno Probability\tCTRL+ALT+C", 19],
-            [20, "Regular Cyno", wx.ALIGN_RIGHT, 100, True, True, "&Regular Cyno Probability\tCTRL+ALT+R", 20],
-            [21, "Last Covert Cyno", wx.ALIGN_RIGHT, 100, True, True, "&Last Covert Cyno Ship Loss\tCTRL+ALT+<", 21],
-            [22, "Last Regular Cyno", wx.ALIGN_RIGHT, 110, True, True, "&Last Regular Cyno Ship Loss\tCTRL+ALT+>", 22],
-            [23, "Abyssal Losses", wx.ALIGN_RIGHT, 100, True, False, "&Abyssal Losses\tCTRL+ALT+Y", 23],
+            [16, "Last Loss", wx.ALIGN_RIGHT, 60, True, True,
+                "Days since last Loss\tCTRL+ALT+[", 16],
+            [17, "Last Kill", wx.ALIGN_RIGHT, 60, True, True,
+                "Days since last Kill\tCTRL+ALT+]", 17],
+            [18, "Avg. Attackers", wx.ALIGN_RIGHT, 100, True,
+                True, "&Average Attackers\tCTRL+ALT+A", 18],
+            [19, "Covert Cyno", wx.ALIGN_RIGHT, 100, True, True,
+                "&Covert Cyno Probability\tCTRL+ALT+C", 19],
+            [20, "Regular Cyno", wx.ALIGN_RIGHT, 100, True, True,
+                "&Regular Cyno Probability\tCTRL+ALT+R", 20],
+            [21, "Last Covert Cyno", wx.ALIGN_RIGHT, 100, True,
+                True, "&Last Covert Cyno Ship Loss\tCTRL+ALT+<", 21],
+            [22, "Last Regular Cyno", wx.ALIGN_RIGHT, 110, True,
+                True, "&Last Regular Cyno Ship Loss\tCTRL+ALT+>", 22],
+            [23, "Abyssal Losses", wx.ALIGN_RIGHT, 100, True,
+                False, "&Abyssal Losses\tCTRL+ALT+Y", 23],
             [24, "", None, 1, False, True, ""],  # Need for _stretchLastCol()
-            )
+        )
 
         # Define the menu bar and menu items
         self.menubar = wx.MenuBar()
         self.menubar.SetName("Menubar")
         if os.name == "nt":  # For Windows
             self.file_menu = wx.Menu()
-            self.file_about = self.file_menu.Append(wx.ID_ANY, '&About\tCTRL+A')
-            self.file_menu.Bind(wx.EVT_MENU, self._openAboutDialog, self.file_about)
+            self.file_about = self.file_menu.Append(
+                wx.ID_ANY, '&About\tCTRL+A')
+            self.file_menu.Bind(
+                wx.EVT_MENU,
+                self._openAboutDialog,
+                self.file_about)
             self.file_quit = self.file_menu.Append(wx.ID_ANY, 'Quit PySpy')
             self.file_menu.Bind(wx.EVT_MENU, self.OnQuit, self.file_quit)
             self.menubar.Append(self.file_menu, 'File')
         if os.name == "posix":  # For macOS
             self.help_menu = wx.Menu()
-            self.help_about = self.help_menu.Append(wx.ID_ANY, '&About\tCTRL+A')
-            self.help_menu.Bind(wx.EVT_MENU, self._openAboutDialog, self.help_about)
+            self.help_about = self.help_menu.Append(
+                wx.ID_ANY, '&About\tCTRL+A')
+            self.help_menu.Bind(
+                wx.EVT_MENU,
+                self._openAboutDialog,
+                self.help_about)
             self.menubar.Append(self.help_menu, 'Help')
 
         # View menu is platform independent
@@ -104,27 +130,40 @@ class Frame(wx.Frame):
         self.factions_sub = wx.Menu()
         self.view_menu.Append(wx.ID_ANY, "Ignore Factions", self.factions_sub)
 
-        self.ignore_galmin = self.factions_sub.AppendRadioItem(wx.ID_ANY, "Gallente / Minmatar")
-        self.factions_sub.Bind(wx.EVT_MENU, self._toggleIgnoreFactions, self.ignore_galmin)
+        self.ignore_galmin = self.factions_sub.AppendRadioItem(
+            wx.ID_ANY, "Gallente / Minmatar")
+        self.factions_sub.Bind(
+            wx.EVT_MENU,
+            self._toggleIgnoreFactions,
+            self.ignore_galmin)
         self.ignore_galmin.Check(self.options.Get("IgnoreGalMin", False))
 
-        self.ignore_amacal = self.factions_sub.AppendRadioItem(wx.ID_ANY, "Amarr / Caldari")
-        self.factions_sub.Bind(wx.EVT_MENU, self._toggleIgnoreFactions, self.ignore_amacal)
+        self.ignore_amacal = self.factions_sub.AppendRadioItem(
+            wx.ID_ANY, "Amarr / Caldari")
+        self.factions_sub.Bind(
+            wx.EVT_MENU,
+            self._toggleIgnoreFactions,
+            self.ignore_amacal)
         self.ignore_amacal.Check(self.options.Get("IgnoreAmaCal", False))
 
         self.ignore_none = self.factions_sub.AppendRadioItem(wx.ID_ANY, "None")
-        self.factions_sub.Bind(wx.EVT_MENU, self._toggleIgnoreFactions, self.ignore_none)
+        self.factions_sub.Bind(
+            wx.EVT_MENU,
+            self._toggleIgnoreFactions,
+            self.ignore_none)
         self.ignore_none.Check(self.options.Get("IgnoreNone", True))
 
         # Higlighting submenu for view menu
         self.hl_sub = wx.Menu()
         self.view_menu.Append(wx.ID_ANY, "Highlighting", self.hl_sub)
 
-        self.hl_blops = self.hl_sub.AppendCheckItem(wx.ID_ANY, "&BLOPS Kills\t(red)")
+        self.hl_blops = self.hl_sub.AppendCheckItem(
+            wx.ID_ANY, "&BLOPS Kills\t(red)")
         self.hl_sub.Bind(wx.EVT_MENU, self._toggleHighlighting, self.hl_blops)
         self.hl_blops.Check(self.options.Get("HlBlops", True))
 
-        self.hl_hic = self.hl_sub.AppendCheckItem(wx.ID_ANY, "&HIC Losses\t(red)")
+        self.hl_hic = self.hl_sub.AppendCheckItem(
+            wx.ID_ANY, "&HIC Losses\t(red)")
         self.hl_sub.Bind(wx.EVT_MENU, self._toggleHighlighting, self.hl_hic)
         self.hl_hic.Check(self.options.Get("HlHic", True))
 
@@ -133,11 +172,12 @@ class Frame(wx.Frame):
             "Cyno Characters (>" +
             "{:.0%}".format(config.CYNO_HL_PERCENTAGE) +
             " cyno losses)\t(blue)"
-            )
+        )
         self.hl_sub.Bind(wx.EVT_MENU, self._toggleHighlighting, self.hl_cyno)
         self.hl_cyno.Check(self.options.Get("HlCyno", True))
 
-        self.hl_list = self.hl_sub.AppendCheckItem(wx.ID_ANY, "&Highlighted Entities List\t(pink)")
+        self.hl_list = self.hl_sub.AppendCheckItem(
+            wx.ID_ANY, "&Highlighted Entities List\t(pink)")
         self.hl_sub.Bind(wx.EVT_MENU, self._toggleHighlighting, self.hl_list)
         self.hl_list.Check(self.options.Get("HlList", True))
 
@@ -152,31 +192,37 @@ class Frame(wx.Frame):
         # Toggle Stay on-top
         self.stay_ontop = self.view_menu.AppendCheckItem(
             wx.ID_ANY, 'Stay on-&top\tCTRL+T'
-            )
-        self.view_menu.Bind(wx.EVT_MENU, self._toggleStayOnTop, self.stay_ontop)
+        )
+        self.view_menu.Bind(
+            wx.EVT_MENU,
+            self._toggleStayOnTop,
+            self.stay_ontop)
         self.stay_ontop.Check(self.options.Get("StayOnTop", True))
 
         # Toggle Dark-Mode
         self.dark_mode = self.view_menu.AppendCheckItem(
             wx.ID_ANY, '&Dark Mode\tCTRL+D'
-            )
+        )
         self.dark_mode.Check(self.options.Get("DarkMode", False))
         self.view_menu.Bind(wx.EVT_MENU, self._toggleDarkMode, self.dark_mode)
         self.use_dm = self.dark_mode.IsChecked()
 
-        self.menubar.Append(self.view_menu, 'View ')  # Added space to avoid autogenerated menu items on Mac
+        # Added space to avoid autogenerated menu items on Mac
+        self.menubar.Append(self.view_menu, 'View ')
 
         # Options Menubar
         self.opt_menu = wx.Menu()
 
-        self.review_ignore = self.opt_menu.Append(wx.ID_ANY, "&Review Ignored Entities\tCTRL+R")
+        self.review_ignore = self.opt_menu.Append(
+            wx.ID_ANY, "&Review Ignored Entities\tCTRL+R")
         self.opt_menu.Bind(
             wx.EVT_MENU,
             self._openIgnoreDialog,
             self.review_ignore
-            )
+        )
 
-        self.review_highlight = self.opt_menu.Append(wx.ID_ANY, "&Review Highlighted Entities\tCTRL+H")
+        self.review_highlight = self.opt_menu.Append(
+            wx.ID_ANY, "&Review Highlighted Entities\tCTRL+H")
         self.opt_menu.Bind(
             wx.EVT_MENU,
             self._openHightlightDialog,
@@ -185,19 +231,21 @@ class Frame(wx.Frame):
 
         self.opt_menu.AppendSeparator()
 
-        self.ignore_all = self.opt_menu.Append(wx.ID_ANY, "&Set NPSI Ignore List\tCTRL+SHIFT+S")
+        self.ignore_all = self.opt_menu.Append(
+            wx.ID_ANY, "&Set NPSI Ignore List\tCTRL+SHIFT+S")
         self.opt_menu.Bind(
             wx.EVT_MENU,
             self._showNpsiDialog,
             self.ignore_all
-            )
+        )
 
-        self.clear_ignore = self.opt_menu.Append(wx.ID_ANY, "&Clear NPSI Ignore List\tCTRL+SHIFT+C")
+        self.clear_ignore = self.opt_menu.Append(
+            wx.ID_ANY, "&Clear NPSI Ignore List\tCTRL+SHIFT+C")
         self.opt_menu.Bind(
             wx.EVT_MENU,
             self._clearNpsiList,
             self.clear_ignore
-            )
+        )
 
         self.opt_menu.AppendSeparator()
 
@@ -211,8 +259,12 @@ class Frame(wx.Frame):
 
         self.opt_menu.AppendSeparator()
 
-        self.clear_cache = self.opt_menu.Append(wx.ID_ANY, '&Clear Character Cache')
-        self.opt_menu.Bind(wx.EVT_MENU, self.clear_character_cache, self.clear_cache)
+        self.clear_cache = self.opt_menu.Append(
+            wx.ID_ANY, '&Clear Character Cache')
+        self.opt_menu.Bind(
+            wx.EVT_MENU,
+            self.clear_character_cache,
+            self.clear_cache)
         # self.file_about = self.file_menu.Append(wx.ID_ANY, '&About\tCTRL+A')
         # self.file_menu.Bind(wx.EVT_MENU, self._openAboutDialog, self.file_about)
 
@@ -234,7 +286,7 @@ class Frame(wx.Frame):
             wx.ID_ANY,
             "Please copy some EVE character names to clipboard...",
             style=wx.ALIGN_LEFT | wx.ST_ELLIPSIZE_END
-            )
+        )
         self.status_label.SetName("Status_Bar")
 
         # First set default properties, then restore persistence if any
@@ -255,10 +307,16 @@ class Frame(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
         # Bind double click on list item to zKill link.
-        self.Bind(wx.grid.EVT_GRID_CELL_LEFT_DCLICK, self._goToZKill, self.grid)
+        self.Bind(
+            wx.grid.EVT_GRID_CELL_LEFT_DCLICK,
+            self._goToZKill,
+            self.grid)
 
         # Bind right click on list item to ignore character.
-        self.Bind(wx.grid.EVT_GRID_CELL_RIGHT_CLICK, self._showContextMenu, self.grid)
+        self.Bind(
+            wx.grid.EVT_GRID_CELL_RIGHT_CLICK,
+            self._showContextMenu,
+            self.grid)
 
         # Bind left click on column label to sorting
         self.Bind(wx.grid.EVT_GRID_COL_SORT, self.sortOutlist, self.grid)
@@ -328,14 +386,15 @@ class Frame(wx.Frame):
         self.grid.SetColLabelAlignment(wx.ALIGN_CENTRE, wx.ALIGN_BOTTOM)
         self.grid.ClipHorzGridLines(False)
         # self.grid.ClipVertGridLines(False)
-        # Disable visual highlighting of selected cell to look more like listctrl
+        # Disable visual highlighting of selected cell to look more like
+        # listctrl
         self.grid.SetCellHighlightPenWidth(0)
         colidx = 0
         for col in self.columns:
             self.grid.SetColLabelValue(
                 col[0],  # Index
                 col[1],  # Heading
-                )
+            )
             # self.grid.SetColSize(colidx, col[3])
             colidx += 1
         # Transparency slider
@@ -356,8 +415,8 @@ class Frame(wx.Frame):
         sizer_bottom.Add(self.status_label, 1, wx.ALIGN_CENTER_VERTICAL, 0)
         static_line = wx.StaticLine(self, wx.ID_ANY, style=wx.LI_VERTICAL)
         sizer_bottom.Add(static_line, 0, wx.EXPAND, 0)
-        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_RIGHT, 0)
-        sizer_main.Add(sizer_bottom, 0, wx.ALIGN_BOTTOM | wx.ALL | wx.EXPAND, 1)
+        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_BOTTOM, 0)
+        sizer_main.Add(sizer_bottom, 0, wx.EXPAND, 1)
         self.SetSizer(sizer_main)
         self.Layout()
         self._restoreColWidth()
@@ -379,7 +438,7 @@ class Frame(wx.Frame):
                 wx.EVT_MENU,
                 lambda evt, scale=scale: self._setFontScale(scale, evt),
                 self.font_sub.MenuItems[-1]
-                )
+            )
             if scale == self.options.Get("FontScale", 1):
                 self.font_sub.MenuItems[-1].Check(True)
 
@@ -409,21 +468,21 @@ class Frame(wx.Frame):
             self.col_menu_items[index] = self.view_menu.AppendCheckItem(
                 wx.ID_ANY,
                 menu_name
-                )
+            )
             # Column show / hide, depending on user settings, if any
             checked = self.options.Get(
                 options_key,
                 self.columns[index][5]
-                )
+            )
             self.col_menu_items[index].Check(
                 self.options.Get(options_key, checked)
-                )
+            )
             # Bind new menu item to toggleColumn method
             self.view_menu.Bind(
                 wx.EVT_MENU,
                 lambda evt, index=index: self._toggleColumn(index, evt),
                 self.col_menu_items[index]
-                )
+            )
 
     def _toggleColumn(self, index, event=None):
         '''
@@ -436,7 +495,7 @@ class Frame(wx.Frame):
         '''
         try:
             checked = self.col_menu_items[index].IsChecked()
-        except:
+        except BaseException:
             checked = False
         col_name = self.columns[index][1]
         if checked:
@@ -501,7 +560,8 @@ class Frame(wx.Frame):
         :param `duration`: Time in seconds taken to query all relevant
         databases for each character.
         '''
-        # If updateList() gets called before outlist has been provided, do nothing
+        # If updateList() gets called before outlist has been provided, do
+        # nothing
         if outlist is None:
             return
         # Clean up grid
@@ -554,10 +614,12 @@ class Frame(wx.Frame):
             losses = solo_ratio = sec_status = "n.a."
 
             if r[13] is not None:
-                week_kills = "{:,}".format(int(r[9])) if int(r[9]) >0 else "-"
+                week_kills = "{:,}".format(int(r[9])) if int(r[9]) > 0 else "-"
                 kills = "{:,}".format(int(r[10]))
-                blops_kills = "{:,}".format(int(r[11])) if int(r[11]) >0 else "-"
-                hic_losses = "{:,}".format(int(r[12])) if int(r[12]) >0 else "-"
+                blops_kills = "{:,}".format(
+                    int(r[11])) if int(r[11]) > 0 else "-"
+                hic_losses = "{:,}".format(
+                    int(r[12])) if int(r[12]) > 0 else "-"
                 losses = "{:,}".format(int(r[13]))
                 solo_ratio = "{:.0%}".format(float(r[14]))
                 sec_status = "{:.1f}".format(float(r[15]))
@@ -571,27 +633,29 @@ class Frame(wx.Frame):
                 if int(r[16]) > 0:
                     last_loss = str((
                         datetime.date.today() -
-                        datetime.datetime.strptime(str(r[16]),'%Y%m%d').date()
-                        ).days) + "d"
+                        datetime.datetime.strptime(str(r[16]), '%Y%m%d').date()
+                    ).days) + "d"
                 else:
                     last_loss = "n.a."
 
                 if int(r[17]) > 0:
                     last_kill = str((
                         datetime.date.today() -
-                        datetime.datetime.strptime(str(r[17]),'%Y%m%d').date()
-                        ).days) + "d"
+                        datetime.datetime.strptime(str(r[17]), '%Y%m%d').date()
+                    ).days) + "d"
                 else:
                     last_kill = "n.a."
 
                 avg_attackers = "{:.1f}".format(float(r[18]))
                 cov_prob_float = r[19]
-                covert_prob = "{:.0%}".format(cov_prob_float) if cov_prob_float >0 else "-"
+                covert_prob = "{:.0%}".format(
+                    cov_prob_float) if cov_prob_float > 0 else "-"
                 norm_prob_float = r[20]
-                normal_prob = "{:.0%}".format(norm_prob_float) if norm_prob_float >0 else "-"
+                normal_prob = "{:.0%}".format(
+                    norm_prob_float) if norm_prob_float > 0 else "-"
                 covert_ship = r[21]
                 normal_ship = r[22]
-                abyssal_losses = r[23] if int(r[23]) >0 else "-"
+                abyssal_losses = r[23] if int(r[23]) > 0 else "-"
 
             out = [
                 id,
@@ -618,7 +682,7 @@ class Frame(wx.Frame):
                 covert_ship,
                 normal_ship,
                 abyssal_losses
-                ]
+            ]
 
             # Check if character belongs to a faction that should be ignored
             if faction_id != 0:
@@ -631,7 +695,8 @@ class Frame(wx.Frame):
             if hl_blops and r[9] is not None and r[11] > 0:  # Add BLOPS to Warning Column
                 out[1] = self.appendString(out[1], "BLOPS")
             if hl_hic and r[9] is not None and r[12] > 0:
-                out[1] = self.appendString(out[1], "HIC")  # Add HIC to Warning Column
+                out[1] = self.appendString(
+                    out[1], "HIC")  # Add HIC to Warning Column
             if hl_cyno and (
                     cov_prob_float >= hl_cyno_prob or norm_prob_float >= hl_cyno_prob):  # Add CYNO to Warnin Column
                 out[1] = self.appendString(out[1], "CYNO")
@@ -640,25 +705,31 @@ class Frame(wx.Frame):
             for value in out:
                 color = False
                 self.grid.SetCellValue(rowidx, colidx, str(value))
-                self.grid.SetCellAlignment(self.columns[colidx][2], rowidx, colidx)
+                # self.grid.SetCellAlignment(self.columns[colidx][2], rowidx, colidx)
                 if hl_blops and r[9] is not None and r[11] > 0:  # Highlight BLOPS chars
-                    self.grid.SetCellTextColour(rowidx, colidx, self.hl1_colour)
+                    self.grid.SetCellTextColour(
+                        rowidx, colidx, self.hl1_colour)
                     color = True
                 if hl_hic and r[9] is not None and r[12] > 0:  # Highlight HIC chars
-                    self.grid.SetCellTextColour(rowidx, colidx, self.hl1_colour)
+                    self.grid.SetCellTextColour(
+                        rowidx, colidx, self.hl1_colour)
                     color = True
                 if hl_cyno and (
                         cov_prob_float >= hl_cyno_prob or norm_prob_float >= hl_cyno_prob):  # Highlight CYNO chars
-                    self.grid.SetCellTextColour(rowidx, colidx, self.hl2_colour)
+                    self.grid.SetCellTextColour(
+                        rowidx, colidx, self.hl2_colour)
                     color = True
 
                 for entry in highlighted_list:  # Highlight chars from highlight list
-                    if hl_list and (entry[1] == out[3] or entry[1] == out[6]or entry[1] == out[8][:-4]):
-                        self.grid.SetCellTextColour(rowidx, colidx, self.hl3_colour)
+                    if hl_list and (
+                            entry[1] == out[3] or entry[1] == out[6] or entry[1] == out[8][:-4]):
+                        self.grid.SetCellTextColour(
+                            rowidx, colidx, self.hl3_colour)
                         color = True
 
                 if not color:
-                    self.grid.SetCellTextColour(rowidx, colidx, self.txt_colour)
+                    self.grid.SetCellTextColour(
+                        rowidx, colidx, self.txt_colour)
                 colidx += 1
             rowidx += 1
 
@@ -668,13 +739,13 @@ class Frame(wx.Frame):
                 " characters analysed, in " + str(duration) +
                 " seconds (" + str(ignore_count) + " ignored). Double click " +
                 "character to go to zKillboard."
-                )
+            )
         else:
             statusmsg.push_status(
                 str(len(outlist) - ignore_count) + " characters analysed (" +
                 str(ignore_count) + " ignored). Double click character to go " +
                 " to zKillboard."
-                )
+            )
 
     def updateStatusbar(self, msg):
         '''Gets called by push_status() in statusmsg.py.'''
@@ -687,7 +758,8 @@ class Frame(wx.Frame):
 
         url = "https://zkillboard.com/"
 
-        # If we want zkillboard advanced linking then just link to the character sheet
+        # If we want zkillboard advanced linking then just link to the
+        # character sheet
         if self.options.Get("ZkillMode", False):
             colidx = event.GetCol()
 
@@ -696,19 +768,21 @@ class Frame(wx.Frame):
                 corporation_id = self.options.Get("outlist")[rowidx][3]
                 url = url + "corporation/" + str(corporation_id) + "/"
 
-            # Alliance was clicked on, link to that killboard if alliance exists
+            # Alliance was clicked on, link to that killboard if alliance
+            # exists
             elif colidx == 8:
                 alliance_id = self.options.Get("outlist")[rowidx][5]
-                if alliance_id != None:
+                if alliance_id is not None:
                     url = url + "alliance/" + str(alliance_id) + "/"
 
             # Faction was clicked on, link to that killboard if faction exists
             elif colidx == 9:
                 faction_id = self.options.Get("outlist")[rowidx][1]
-                if faction_id != None:
+                if faction_id is not None:
                     url = url + "faction/" + str(faction_id) + "/"
 
-            # Something other than character was clicked on but we want to look at the character with modifiers
+            # Something other than character was clicked on but we want to look
+            # at the character with modifiers
             elif colidx != 3:
                 # Set up the character base url
                 character_id = self.options.Get("outlist")[rowidx][0]
@@ -734,7 +808,8 @@ class Frame(wx.Frame):
                     url = url + "abyssal/"
 
             # This is a catch all if the url wasnt set or if a column other than a special one was clicked.
-            # This is in a seperate flow to the above in case any of the above need to fall through
+            # This is in a seperate flow to the above in case any of the above
+            # need to fall through
         if url == "https://zkillboard.com/":
             character_id = self.options.Get("outlist")[rowidx][0]
             url = url + "character/" + str(character_id) + "/"
@@ -787,31 +862,34 @@ class Frame(wx.Frame):
             # Context menu to ignore characters, corporations and alliances.
             item_ig_char = self.menu.Append(
                 wx.ID_ANY, "Ignore character '" + character_name + "'"
-                )
+            )
             self.menu.Bind(
                 wx.EVT_MENU,
-                lambda evt, id=character_id, name=character_name: OnIgnore(id, name, "Character", evt),
+                lambda evt, id=character_id, name=character_name: OnIgnore(
+                    id, name, "Character", evt),
                 item_ig_char
-                )
+            )
 
             item_ig_corp = self.menu.Append(
                 wx.ID_ANY, "Ignore corporation: '" + corp_name + "'"
-                )
+            )
             self.menu.Bind(
                 wx.EVT_MENU,
-                lambda evt, id=corp_id, name=corp_name: OnIgnore(id, name, "Corporation", evt),
+                lambda evt, id=corp_id, name=corp_name: OnIgnore(
+                    id, name, "Corporation", evt),
                 item_ig_corp
-                )
+            )
 
             if alliance_name is not None:
                 item_ig_alliance = self.menu.Append(
                     wx.ID_ANY, "Ignore alliance: '" + alliance_name + "'"
-                    )
+                )
                 self.menu.Bind(
                     wx.EVT_MENU,
-                    lambda evt, id=alliance_id, name=alliance_name: OnIgnore(id, name, "Alliance", evt),
+                    lambda evt, id=alliance_id, name=alliance_name: OnIgnore(
+                        id, name, "Alliance", evt),
                     item_ig_alliance
-                    )
+                )
 
             self.menu.AppendSeparator()
 
@@ -834,8 +912,9 @@ class Frame(wx.Frame):
                     wx.ID_ANY, "Highlight character '" + character_name + "'"
                 )
                 self.menu.Bind(
-                   wx.EVT_MENU,
-                   lambda evt, id=character_id, name=character_name: OnHighlight(id, name, "Character", evt),
+                    wx.EVT_MENU,
+                    lambda evt, id=character_id, name=character_name: OnHighlight(
+                        id, name, "Character", evt),
                     item_hl_char
                 )
             else:
@@ -844,7 +923,8 @@ class Frame(wx.Frame):
                 )
                 self.menu.Bind(
                     wx.EVT_MENU,
-                    lambda evt, id=character_id, name=character_name: OnDeHighlight(id, name, "Character", evt),
+                    lambda evt, id=character_id, name=character_name: OnDeHighlight(
+                        id, name, "Character", evt),
                     item_hl_char
                 )
 
@@ -854,7 +934,8 @@ class Frame(wx.Frame):
                 )
                 self.menu.Bind(
                     wx.EVT_MENU,
-                    lambda evt, id=corp_id, name=corp_name: OnHighlight(id, name, "Corporation", evt),
+                    lambda evt, id=corp_id, name=corp_name: OnHighlight(
+                        id, name, "Corporation", evt),
                     item_hl_corp
                 )
             else:
@@ -863,7 +944,8 @@ class Frame(wx.Frame):
                 )
                 self.menu.Bind(
                     wx.EVT_MENU,
-                    lambda evt, id=corp_id, name=corp_name: OnDeHighlight(id, name, "Corporation", evt),
+                    lambda evt, id=corp_id, name=corp_name: OnDeHighlight(
+                        id, name, "Corporation", evt),
                     item_hl_corp
                 )
 
@@ -871,19 +953,21 @@ class Frame(wx.Frame):
                 if not hl_alliance:
                     item_hl_alliance = self.menu.Append(
                         wx.ID_ANY, "Highlight alliance: '" + alliance_name + "'"
-                        )
+                    )
                     self.menu.Bind(
                         wx.EVT_MENU,
-                        lambda evt, id=alliance_id, name=alliance_name: OnHighlight(id, name, "Alliance", evt),
+                        lambda evt, id=alliance_id, name=alliance_name: OnHighlight(
+                            id, name, "Alliance", evt),
                         item_hl_alliance
-                        )
+                    )
                 else:
                     item_hl_alliance = self.menu.Append(
                         wx.ID_ANY, "Stop highlighting alliance: '" + alliance_name + "'"
                     )
                     self.menu.Bind(
                         wx.EVT_MENU,
-                        lambda evt, id=alliance_id, name=alliance_name: OnDeHighlight(id, name, "Alliance", evt),
+                        lambda evt, id=alliance_id, name=alliance_name: OnDeHighlight(
+                            id, name, "Alliance", evt),
                         item_hl_alliance
                     )
 
@@ -916,7 +1000,7 @@ class Frame(wx.Frame):
         self.grid.SetColLabelValue(
             colidx,
             self.columns[colidx][1] + " " + arrow
-            )
+        )
         self.options.Set("SortColumn", colidx)
         self.options.Set("SortDesc", sort_desc)
         event = None
@@ -933,7 +1017,7 @@ class Frame(wx.Frame):
                 prim_desc=sort_desc,
                 sec_desc=False,  # Secondary sort by name always ascending
                 case_sensitive=False
-                )
+            )
         self.options.Set("outlist", outlist)
         self.updateList(outlist, duration=duration)
 
@@ -959,11 +1043,11 @@ class Frame(wx.Frame):
             str(cur_ver) + ". Would you like to update now?",
             'Update Available',
             wx.YES_NO | wx.YES_DEFAULT | wx.ICON_INFORMATION | wx.STAY_ON_TOP
-            )
+        )
         if msgbox == wx.YES:
             webbrowser.open_new_tab(
                 "https://github.com/Eve-PySpy/PySpy/releases/latest"
-                )
+            )
         self.ToggleWindowStyle(wx.STAY_ON_TOP)
 
     def _toggleIgnoreFactions(self, e):
@@ -1039,14 +1123,15 @@ class Frame(wx.Frame):
             "You can undo this under `Options > Clear NPSI Ignore List`.",
             "NPSI Ignore List",
             wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION
-            )
+        )
         if dialog == 2:  # Yes
             npsi_list = []
             outlist = self.options.Get("outlist", None)
             if outlist is None:
                 return
             for r in outlist:
-                character_id = [r[0]]  # Needs to be list to append to ignored_list
+                # Needs to be list to append to ignored_list
+                character_id = [r[0]]
                 npsi_list.append(character_id)
             self.options.Set("NPSIList", npsi_list)
             self.updateList(outlist)
@@ -1056,7 +1141,7 @@ class Frame(wx.Frame):
             "Would you like to clear the current NPSI fleet ignore list?",
             "NPSI Ignore List",
             wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION
-            )
+        )
         if dialog == 2:  # Yes
             self.options.Set("NPSIList", [])
             self.updateList(self.options.Get("outlist", None))
@@ -1099,7 +1184,7 @@ class Frame(wx.Frame):
             width = self.grid.GetColSize(col[0])
             try:
                 menu_item_chk = self.col_menu_items[col[0]].IsChecked()
-            except:
+            except BaseException:
                 menu_item_chk = False
             # Only save column width for columns that are not hidden or
             # not hideable and shown by default.
@@ -1144,6 +1229,7 @@ class Frame(wx.Frame):
         conn.commit()
         conn.close()
         statusmsg.push_status("Cleared character cache")
+
 
 class App(wx.App):
     def OnInit(self):
