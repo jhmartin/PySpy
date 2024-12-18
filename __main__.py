@@ -87,7 +87,7 @@ def analyze_chars(char_names):
         )
 
 
-app = gui.App(0)  # Has to be defined before background thread starts.
+app = gui.App(redirect=True,filename="pyspy.log")  # Has to be defined before background thread starts.
 
 background_thread = threading.Thread(
     target=watch_clpbd,
