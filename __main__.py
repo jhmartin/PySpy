@@ -51,7 +51,7 @@ def watch_clpbd():
 
 
 def check_name_validity(char_name):
-    if len(char_name) < 3:
+    if len(char_name) < 3 or len(char_name) > 37 or char_name.count(' ') > 1:
         return False
     regex = r"[^ 'a-zA-Z0-9-]"  # Valid EVE Online character names
     if re.search(regex, char_name):
