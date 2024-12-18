@@ -1,0 +1,40 @@
+version: '2.1'
+orbs:
+  win: circleci/windows@5.0
+jobs:
+  build:
+    executor:
+      name: win/default
+    steps:
+      - checkout
+      - run:
+          name: Install and set Python 3.8.0
+          shell: powershell.exe
+          command: |
+            choco install pyenv-win --force -y
+            refreshenv
+            pyenv install 3.8.0
+            pyenv global 3.8.0
+            $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
+            python --version
+      - run:
+          name: Build PySpy
+          command: |
+            $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
+            python --version
+            python -m ensurepip --upgrade
+            python -m pip install --upgrade pip
+            pip uninstall attrdict attrdict3 wheel setuptools -y
+            pip install -U wheel setuptools requests
+            pip install pathlib2
+            pip install -U attrdict3
+            pip install -r requirements.txt
+            pip3 install pyinstaller
+            pyinstaller __main__.spec
+      - store_artifacts:
+          path: dist/PySpy.exe
+          destination: PySpy.exe
+workflows:
+  workflow:
+    jobs:
+      - build
