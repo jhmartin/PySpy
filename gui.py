@@ -356,8 +356,8 @@ class Frame(wx.Frame):
         sizer_bottom.Add(self.status_label, 1, wx.ALIGN_CENTER_VERTICAL, 0)
         static_line = wx.StaticLine(self, wx.ID_ANY, style=wx.LI_VERTICAL)
         sizer_bottom.Add(static_line, 0, wx.EXPAND, 0)
-        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_RIGHT, 0)
-        sizer_main.Add(sizer_bottom, 0, wx.ALIGN_BOTTOM | wx.ALL | wx.EXPAND, 1)
+        sizer_bottom.Add(self.alpha_slider, 0, wx.ALIGN_BOTTOM, 0)
+        sizer_main.Add(sizer_bottom, 0,  wx.EXPAND, 1)
         self.SetSizer(sizer_main)
         self.Layout()
         self._restoreColWidth()
@@ -640,7 +640,7 @@ class Frame(wx.Frame):
             for value in out:
                 color = False
                 self.grid.SetCellValue(rowidx, colidx, str(value))
-                self.grid.SetCellAlignment(self.columns[colidx][2], rowidx, colidx)
+                #self.grid.SetCellAlignment(self.columns[colidx][2], rowidx, colidx)
                 if hl_blops and r[9] is not None and r[11] > 0:  # Highlight BLOPS chars
                     self.grid.SetCellTextColour(rowidx, colidx, self.hl1_colour)
                     color = True
