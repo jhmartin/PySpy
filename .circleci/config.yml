@@ -7,16 +7,16 @@ jobs:
       name: win/default
     steps:
       - checkout
-      - run:
-          name: Install and set Python 3.8.0
-          shell: powershell.exe
-          command: |
-            choco install pyenv-win --force -y
-            refreshenv
-            pyenv install 3.8.0
-            pyenv global 3.8.0
-            $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
-            python --version
+#      - run:
+#          name: Install and set Python 3.8.0
+#          shell: powershell.exe
+#          command: |
+#            choco install pyenv-win --force -y
+#            refreshenv
+#            pyenv install 3.8.0
+#            pyenv global 3.8.0
+#            $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
+#            python --version
       - run:
           name: Build PySpy
           command: |
