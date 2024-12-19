@@ -12,9 +12,9 @@ jobs:
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
-            pip install -r requirements.txt
-            pip3 install pyinstaller
-            pyinstaller __main__.spec
+            pip3 install -r requirements.txt
+            pip3 install nuitka
+            python -m nuitka --onefile __main__.py
       - store_artifacts:
           path: dist/PySpy.exe
           destination: PySpy.exe
