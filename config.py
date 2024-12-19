@@ -11,7 +11,6 @@ import platform
 import sys
 import uuid
 
-import requests
 import wx  # required for colour codes in DARK_MODE
 
 import optstore
@@ -52,7 +51,8 @@ if getattr(sys, 'frozen', False):
         LOG_PATH = local_path
         ICON_FILE = resource_path("pyspy.ico")
 # If application is run as script
-elif __file__:
+#elif __file__:
+else:
     ABOUT_ICON = resource_path("assets/pyspy_mid.png")
     application_path = os.path.dirname(__file__)
     if platform.system() == "Linux":
@@ -76,7 +76,7 @@ DB_FILE = os.path.join(PREF_PATH, "pyspy.sqlite3")
 OPTIONS_OBJECT = optstore.PersistentOptions(OPTIONS_FILE)
 
 # Read current version from VERSION file
-with open(resource_path('VERSION'), 'r') as ver_file:
+with open(resource_path('VERSION'), 'r', encoding='UTF-8') as ver_file:
     CURRENT_VER = ver_file.read().replace('\n', '')
 
 # Clean up old GUI_CFG_FILES and OPTIONS_OBJECT keys

@@ -6,8 +6,6 @@
 # **********************************************************************
 import logging.config
 import logging
-import os
-import sys
 import datetime
 
 import requests
@@ -27,10 +25,10 @@ def chk_github_update():
     last_check = config.OPTIONS_OBJECT.Get("last_update_check", 0)
     if last_check == 0 or last_check < datetime.date.today():
         # Get latest version available on GitHub
-        GIT_URL = "https://api.github.com/repos/Eve-PySpy/PySpy/releases/latest"
+        git_url = "https://api.github.com/repos/jhmartin/PySpy/releases/latest"
         try:
             # verify=False to avoid certificate errors. This is not critical.
-            latest_ver = requests.get(GIT_URL, verify=False).json()["tag_name"]
+            latest_ver = requests.get(git_url, timeout=5).json()["tag_name"]
             Logger.info(
                 "You are running " + CURRENT_VER + " and " +
                 latest_ver + " is the latest version available on GitHub."
@@ -40,5 +38,3 @@ def chk_github_update():
                 wx.CallAfter(__main__.app.PySpy.updateAlert, latest_ver, CURRENT_VER)
         except:
             Logger.info("Could not check GitHub for potential available updates.")
-
-

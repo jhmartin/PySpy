@@ -38,7 +38,7 @@ def connect_persistent_db():
 
         @returns: connection and cursor objects as conn and cur
         '''
-    Logger.info("Connecting to persistent DB - {}".format(config.DB_FILE))
+    Logger.info(f"Connecting to persistent DB - {config.DB_FILE}")
     conn = sqlite3.connect(config.DB_FILE)
     cur = conn.cursor()
     cur.execute("PRAGMA journal_mode = TRUNCATE")
@@ -112,7 +112,7 @@ def write_many_to_db(conn, cur, query_string, records, keepalive=True):
         conn.commit()
     except Exception as e:
         Logger.error("Failed to write orders to database. {}".format(e), exc_info=True)
-        raise Exception
+        raise Exception from e
     records_added = conn.total_changes
     if not keepalive:
         cur.execute("PRAGMA optimize")
