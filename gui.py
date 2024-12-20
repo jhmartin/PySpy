@@ -1046,7 +1046,7 @@ class Frame(wx.Frame):
         )
         if msgbox == wx.YES:
             webbrowser.open_new_tab(
-                "https://github.com/Eve-PySpy/PySpy/releases/latest"
+                "https://github.com/jhmartin/PySpy/releases/latest"
             )
         self.ToggleWindowStyle(wx.STAY_ON_TOP)
 

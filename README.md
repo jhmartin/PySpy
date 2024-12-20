@@ -1,22 +1,19 @@
 <!--- // cSpell:words killboard, blops, hics, killboard's, cynos, ccp's, pyspy, psf's, pyperclip, pyinstaller, executables, jojo, unported, killmails --->
 
-# !! This Tool is unmaintained and in a not working state. !!
-
 # PySpy - A simple EVE Online character intel tool using CCP's ESI API
 
 <p align="left">
-  <a href=https://github.com/Eve-PySpy/PySpy/releases/latest>
-    <img alt="Current Version" src="https://img.shields.io/github/release/Eve-PySpy/pyspy.svg">
+  <a href=https://github.com/jhmartin/PySpy/releases/latest>
+    <img alt="Current Version" src="https://img.shields.io/github/release/jhmartin/pyspy.svg">
   </a>
-  <a href=https://github.com/Eve-PySpy/PySpy/releases/latest>
-    <img alt="Number of releases downloaded" src="https://img.shields.io/github/downloads/Eve-PySpy/PySpy/total.svg">
-  </a>
-  <a href=https://travis-ci.org/Eve-PySpy/PySpy.svg?branch=master>
-    <img alt="Build Status" src="https://travis-ci.org/Eve-PySpy/PySpy.svg?branch=master">
+  <a href=https://github.com/jhmartin/PySpy/releases/latest>
+    <img alt="Number of releases downloaded" src="https://img.shields.io/github/downloads/jhmartin/PySpy/total.svg">
   </a>
 </p>
 
-**Download the latest release [here](https://github.com/Eve-PySpy/PySpy/releases/latest).**
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/jhmartin/PySpy/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/jhmartin/PySpy/tree/master)
+
+**Download the latest release [here](https://github.com/jhmartin/PySpy/releases/latest).**
 
 ## Background
 
@@ -42,12 +39,12 @@ If you enjoy using PySpy and would like to show your appreciation, please feel f
 
 ### New Dark Mode
 <p align="center">
-  <img alt="PySpy in action" src="https://github.com/Eve-PySpy/PySpy/blob/master/assets/v0.4_dark_screenshot.png?raw=true">
+  <img alt="PySpy in action" src="https://github.com/jhmartin/PySpy/blob/master/assets/v0.4_dark_screenshot.png?raw=true">
 </p>
 
 ### Traditional Normal Mode
 <p align="center">
-  <img alt="PySpy in action" src="https://github.com/Eve-PySpy/PySpy/blob/master/assets/v0.4_light_screenshot.png?raw=true">
+  <img alt="PySpy in action" src="https://github.com/jhmartin/PySpy/blob/master/assets/v0.4_light_screenshot.png?raw=true">
 </p>
 
 * **Warning**: Displays reasons why a character might be highlighted
@@ -94,44 +91,30 @@ Furthermore PySpy can also highlight a character if he uses Black Ops and Heavy 
 
 You can download the latest release for your operating system [here](https://github.com/Eve-PySpy/PySpy/releases/latest).
 
-PySpy comes as a single-file executable both in Windows and macOS. On both platforms, you can run PySpy from any folder location you like.
-
-On Linux, you can run PySpy like any other Python3 script. PySpy was developed on Python 3.6.5 but should run on any other Python3 version, so long as you install the required packages listed in [requirements.txt](https://github.com/Eve-PySpy/PySpy/blob/master/requirements.txt).
+PySpy comes as a single-file executable. You can run PySpy from any folder location you like.
 
 If you want to build PySpy into an executable yourself, then the pyinstaller spec file is provided, you will likely need to provide the api-ms-core dlls that python requires. details of this can be found [here](https://github.com/pyinstaller/pyinstaller/issues/4047#issuecomment-460869714). You will know you need them if pyinstaller complains about missing them when run.
-
-**Note**: PySpy automatically checks for updates on launch and will notify you if a new version is available.
 
 ## Uninstalling PySpy
 
 Delete the PySpy executable and remove the following files manually:
 
 * **Windows**: PySpy saves preference and log files in a folder called  `PySpy` located at `%LocalAppData%`.
-* **macOS**: PySpy creates `pyspy.log` under `~/Library/Logs` and `pyspy.cfg` as well as `pyspy.pickle` under `~/Library/Preferences`.
-* **Linux**: PySpy creates `pyspy.log` under `~/Library/Logs` and `pyspy.cfg` as well as `pyspy.pickle` under `~/.config/pyspy`.
-
-## Future Features
-
-Below is a non-exhaustive list of additional features I plan to add to PySpy as and when the ESI and zKillboard APIs support them:
-
-* **Standings**: Only show characters that are non-blue, i.e. neutral or hostile.
-* **Highlight New Pilots**: Highlight any pilots that have entered system since last PySpy run.
-* **Improved GUI**: The current GUI is very basic and while it works, I do appreciate that it is not ideal for people who cannot use it on a second screen but actually have to overlay it on-top of their EVE client.
-
-Please feel free to add a [feature request](https://github.com/Eve-PySpy/PySpy/issues/new?template=pyspy-feature-request.md) for any improvements you would like to see in future releases.
-
-## Bug Reporting
-
-Despite extensive testing, you may encounter the odd bug. If so, please check if an existing [issue](https://github.com/WhiteRusssian/PySpy/issues) already describes your bug. If not, feel free to [create a new issue](https://github.com/WhiteRusssian/PySpy/issues/new?template=pyspy-bug-report.md) for your bug.
 
 ## Dependencies & Acknowledgements
 
 * PySpy is written in [Python 3](https://www.python.org/), licensed under [PSF's License Agreement](https://docs.python.org/3/license.html#psf-license-agreement-for-python-release).
-* For API connectivity, PySpy relies on [Requests](http://docs.python-requests.org/) (v2.19.1), licensed under the [Apache License, Version 2.0](http://docs.python-requests.org/en/master/user/intro/#requests-license).
-* Clipboard monitoring is implemented with the help of [pyperclip](https://github.com/asweigart/pyperclip) (v1.6.2), licensed under the [3-Clause BSD License](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt).
-* The GUI is powered by [wxPython](https://www.wxpython.org/) (v4.0.3), licensed under the [wxWindows Library Licence](https://wxpython.org/pages/license/index.html).
-* The Windows and macOS executables are built using [pyinstaller](https://www.pyinstaller.org/), licensed under [its own modified GPL license](https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/COPYING.txt).
+* For API connectivity, PySpy relies on [Requests](http://docs.python-requests.org/), licensed under the [Apache License, Version 2.0](http://docs.python-requests.org/en/master/user/intro/#requests-license).
+* Clipboard monitoring is implemented with the help of [pyperclip](https://github.com/asweigart/pyperclip), licensed under the [3-Clause BSD License](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt).
+* The GUI is powered by [wxPython](https://www.wxpython.org/), licensed under the [wxWindows Library Licence](https://wxpython.org/pages/license/index.html).
+* The Windows executables are built using [pyinstaller](https://www.pyinstaller.org/), licensed under [its own modified GPL license](https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/COPYING.txt).
 * PySpy's icon was created by Jojo Mendoza and is licensed under [Creative Commons (Attribution-Noncommercial 3.0 Unported)](https://creativecommons.org/licenses/by-nc/3.0/). It is available on [IconFinder](https://www.iconfinder.com/icons/1218719/cyber_hat_spy_undercover_user_icon).
+
+## 'Virus' alerts, unsigned code
+
+PyInstaller is frequently flagged by MS Defender and other virus scanners.  There is little I can do about this except do my best to demonstrate it is a false positive. You can see CI-built executables at https://app.circleci.com/pipelines/github/jhmartin/PySpy to see that there is no untoward code. Alternatively you can build a copy yourself.
+
+Similarly, code signing certs for free projects are not free, so you will get an alert about that which is expected.
 
 ## License
 
@@ -140,7 +123,3 @@ PySpy is licensed under the [MIT](LICENSE.txt) License.
 ## CCP Copyright Notice
 
 EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.
-
-## Collection of Usage Statistics
-
-To help improve PySpy further, PySpy reports usage statistics comprising certain anonymous information such as the number of characters analysed, duration of each analysis, operating system, version of PySpy, and any active GUI features. For full disclosure, a randomly generated identifier is being sent with each data set to allow me to track how many people are actually using PySpy over any given period. If you would like to see for yourself what is being collected, have a look at the source code of module `reportstats.py`.
