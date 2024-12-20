@@ -1,7 +1,7 @@
 version: '2.1'
 orbs:
   win: circleci/windows@5.0
-  github-cli: circleci/github-cli@2.6.2
+  gh: circleci/github-cli@2.6.2
 
 jobs:
   build:
@@ -31,7 +31,7 @@ workflows:
           context:
             - GITHUB_CREDS
           filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
