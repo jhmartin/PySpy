@@ -1,6 +1,8 @@
 version: '2.1'
 orbs:
   win: circleci/windows@5.0
+  gh: circleci/github-cli@2.6.2
+
 jobs:
   build:
     executor:
@@ -12,13 +14,33 @@ jobs:
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
+            $tagOrSha1 = if ($env:CIRCLE_TAG) { $env:CIRCLE_TAG } else { $env:CIRCLE_SHA1 }
+            echo $tagOrSha1 > VERSION            
             pip install -r requirements.txt
             pip3 install pyinstaller
             pyinstaller __main__.spec
+      - run:
+          name: Compress Result
+          command: |
+            $ProgressPreference = "SilentlyContinue"
+            Get-ChildItem -Recurse
+            $tagOrSha1 = if ($env:CIRCLE_TAG) { $env:CIRCLE_TAG } else { $env:CIRCLE_SHA1 }
+            Compress-Archive .\\dist\\PySpy.exe .\\dist\\PySpy-$tagOrSha1.zip
+            Remove-Item .\\dist\\PySpy.exe
+            Get-ChildItem -Recurse
       - store_artifacts:
-          path: dist/PySpy.exe
-          destination: PySpy.exe
+          path: dist
 workflows:
   workflow:
     jobs:
       - build
+      - gh/release:
+          notes-file: CHANGELOG.md
+          tag: << pipeline.git.tag >>
+          context:
+            - GITHUB_CREDS
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
