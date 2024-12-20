@@ -76,7 +76,7 @@ DB_FILE = os.path.join(PREF_PATH, "pyspy.sqlite3")
 OPTIONS_OBJECT = optstore.PersistentOptions(OPTIONS_FILE)
 
 # Read current version from VERSION file
-with open(resource_path('VERSION'), 'r', encoding='UTF-8') as ver_file:
+with open(resource_path('VERSION'), 'r') as ver_file:
     CURRENT_VER = ver_file.read().replace('\n', '')
 
 # Clean up old GUI_CFG_FILES and OPTIONS_OBJECT keys
