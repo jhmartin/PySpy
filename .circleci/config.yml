@@ -44,7 +44,7 @@ workflows:
       - gh/release:
           pre-steps:
             - attach_workspace:
-                at: dist
+                at: /tmp/dist
           requires:
             - build
           notes-file: CHANGELOG.md
@@ -57,4 +57,4 @@ workflows:
             branches:
               ignore: /.*/
           files:
-            dist/*.zip
+            /tmp/dist/*.zip
