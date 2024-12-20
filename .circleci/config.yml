@@ -34,11 +34,6 @@ jobs:
           root: dist
           paths:
             - .
-#  gh/release:
-#    steps:
-#      - attach_workspace:
-#          at: /tmp/workspace
-
 workflows:
   workflow:
     jobs:
@@ -47,6 +42,9 @@ workflows:
             tags:
               only: /^v.*/
       - gh/release:
+          pre-steps:
+            - attach_workspace:
+                at: dist
           requires:
             - build
           notes-file: CHANGELOG.md
