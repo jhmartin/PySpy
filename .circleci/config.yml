@@ -35,6 +35,8 @@ workflows:
     jobs:
       - build
       - gh/release:
+          requires:
+            - build
           notes-file: CHANGELOG.md
           tag: << pipeline.git.tag >>
           context:
@@ -44,3 +46,5 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+          files:
+            dist/*.zip
