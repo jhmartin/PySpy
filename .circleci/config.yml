@@ -1,6 +1,8 @@
 version: '2.1'
 orbs:
   win: circleci/windows@5.0
+  github-cli: circleci/github-cli@2.6.2
+
 jobs:
   build:
     executor:
@@ -12,13 +14,24 @@ jobs:
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
+            echo "${CIRCLE_TAG:-$CIRCLE_SHA1}" > VERSION            
             pip install -r requirements.txt
             pip3 install pyinstaller
             pyinstaller __main__.spec
+            zip -r PySpy.exe "PySpy-${CIRCLE_TAG:-$CIRCLE_SHA1}.zip"
       - store_artifacts:
-          path: dist/PySpy.exe
-          destination: PySpy.exe
+          path: dist/*.zip
 workflows:
   workflow:
     jobs:
       - build
+      - gh/release:
+          notes-file: CHANGELOG.md
+          tag: << pipeline.git.tag >>
+          context:
+            - GITHUB_CREDS
+          filters:
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
