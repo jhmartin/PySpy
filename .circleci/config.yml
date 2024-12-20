@@ -31,9 +31,9 @@ jobs:
       - store_artifacts:
           path: dist
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: dist
           paths:
-            - dist/
+            - .
 #  gh/release:
 #    steps:
 #      - attach_workspace:
@@ -59,5 +59,4 @@ workflows:
             branches:
               ignore: /.*/
           files:
-            /tmp/workspace/dist/*.zip
             dist/*.zip
