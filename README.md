@@ -13,7 +13,7 @@
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/jhmartin/PySpy/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/jhmartin/PySpy/tree/master)
 
-**Download the latest release [here](https://github.com/jhmartin/PySpy/releases/latest).**
+**Download the latest release at <https://github.com/jhmartin/PySpy/releases/latest>.**
 
 ## Background
 
@@ -89,7 +89,7 @@ Furthermore PySpy can also highlight a character if he uses Black Ops and Heavy 
 
 ## Installation
 
-You can download the latest release for your operating system [here](https://github.com/Eve-PySpy/PySpy/releases/latest).
+You can download the latest release for your operating system [here](https://github.com/jhmartin/PySpy/releases/latest).
 
 PySpy comes as a single-file executable. You can run PySpy from any folder location you like.
 
