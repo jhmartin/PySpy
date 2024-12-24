@@ -19,7 +19,6 @@ import statusmsg
 # // cSpell:words ccp's, activepvp
 # **********************************************************************
 Logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
 
@@ -175,7 +174,6 @@ def post_proprietary_db(character_ids):
             r = requests.get(
                 url, headers=headers, params={
                     'character_id': character_id}, timeout=10)
-            Logger.info(r.text)
         except requests.exceptions.ConnectionError as e:
             Logger.info("No network connection.", exc_info=True)
             statusmsg.push_status(
@@ -195,7 +193,6 @@ def post_proprietary_db(character_ids):
             )
             return "server_error"
         results.append(r.json())
-    Logger.info(results)
     return results
 
 
@@ -211,7 +208,6 @@ def get_ship_data():
         r = requests.get(url, timeout=10)
     except requests.exceptions.ConnectionError as e:
         Logger.error("[get_ship_data] No network connection.", exc_info=True)
-        return "network_error"
         raise e
     if r.status_code != 200:
         server_msg = json.loads(r.text)["error"]

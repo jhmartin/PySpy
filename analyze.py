@@ -241,14 +241,14 @@ def get_character_intel(conn, cur):
     records = ()
     for r in char_intel:
         char_id = r["character_id"]
-        last_loss_date = r["last_loss_date"] if r["last_loss_date"] is not None else 0
-        last_kill_date = r["last_kill_date"] if r["last_kill_date"] is not None else 0
-        avg_attackers = r["avg_attackers"] if r["avg_attackers"] is not None else 0
-        covert_prob = r["covert_prob"] if r["covert_prob"] is not None else 0
-        normal_prob = r["normal_prob"] if r["normal_prob"] is not None else 0
-        last_cov_ship = r["last_cov_ship"] if r["last_cov_ship"] is not None else 0
-        last_norm_ship = r["last_norm_ship"] if r["last_norm_ship"] is not None else 0
-        abyssal_losses = r["abyssal_losses"] if r["abyssal_losses"] is not None else 0
+        last_loss_date = r.get("last_loss_date",0)
+        last_kill_date = r.get("last_kill_date",0)
+        avg_attackers = r.get("avg_attackers",0)
+        covert_prob = r.get("covert_prob",0)
+        normal_prob = r.get("normal_prob",0)
+        last_cov_ship = r.get("last_cov_ship",0)
+        last_norm_ship = r.get("last_norm_ship",0)
+        abyssal_losses = r.get("abyssal_losses",0)
 
         records = records + ((
             last_loss_date, last_kill_date, avg_attackers, covert_prob,
