@@ -12,6 +12,7 @@
 </p>
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/jhmartin/PySpy/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/jhmartin/PySpy/tree/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0eea4dec27e9686380f9/maintainability)](https://codeclimate.com/github/jhmartin/PySpy/maintainability)
 
 **Download the latest release at <https://github.com/jhmartin/PySpy/releases/latest>.**
 

@@ -182,7 +182,7 @@ def post_proprietary_db(character_ids):
             time.sleep(5)
             raise e
         if r.status_code != 200:
-            server_msg = json.loads(r.text)["error"]
+            server_msg = r.text
             Logger.info(
                 "PySpy server returned error code: " +
                 str(r.status_code) + ", saying: " + server_msg, exc_info=True
