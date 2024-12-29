@@ -9,8 +9,8 @@ import datetime
 import logging
 import sqlite3
 
-import config
-import apis
+from . import config
+from . import apis
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words wrusssian, sqlite, blops, russsian
 # **********************************************************************

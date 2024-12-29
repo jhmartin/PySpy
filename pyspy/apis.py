@@ -13,7 +13,7 @@ import time
 
 import requests
 
-import statusmsg
+from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words wrusssian, ZKILL, gmail, blops, toon, HICs, russsian,
 # // cSpell:words ccp's, activepvp

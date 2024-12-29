@@ -14,10 +14,10 @@ import queue
 import time
 import datetime
 
-import apis
-import config
-import db
-import statusmsg
+from . import apis
+from . import config
+from . import db
+from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words affil, zkill, blops, qsize, numid, russsian, ccp's
 # // cSpell:words records_added
@@ -26,7 +26,7 @@ Logger = logging.getLogger(__name__)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
 
-def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
+def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk, app):
     chars_found = get_char_ids(conn_mem, cur_mem, char_names)
     if chars_found > 0:
         # Run Pyspy remote database query in seprate thread
@@ -107,9 +107,9 @@ def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
         return
 
 
-def get_char_ids(conn, cur, char_names):
+def get_char_ids(conn, cur, char_names, app):
     char_names = json.dumps(char_names[0:config.MAX_NAMES])  # apis max char is 1000
-    statusmsg.push_status("Resolving character names to IDs...")
+    statusmsg.push_status("Resolving character names to IDs...", app)
     try:
         characters = apis.post_req_ccp("universe/ids/", char_names)
         characters = characters['characters']
@@ -125,10 +125,10 @@ def get_char_ids(conn, cur, char_names):
     return records_added
 
 
-def get_char_affiliations(conn, cur):
+def get_char_affiliations(conn, cur, app):
     char_ids = cur.execute("SELECT char_id FROM characters").fetchall()
     char_ids = json.dumps(tuple([r[0] for r in char_ids]))
-    statusmsg.push_status("Retrieving character affiliation IDs...")
+    statusmsg.push_status("Retrieving character affiliation IDs...", app)
     try:
         affiliations = apis.post_req_ccp("characters/affiliation/", char_ids)
     except:
@@ -163,7 +163,7 @@ def get_affil_names(conn, cur):
     ids = alliance_ids + corp_ids
     ids = json.dumps(tuple([r[0] for r in ids]))
 
-    statusmsg.push_status("Obtaining corporation and alliance names and zKillboard data...")
+    statusmsg.push_status("Obtaining corporation and alliance names and zKillboard data...", app)
     try:
         names = apis.post_req_ccp("universe/names/", ids)
     except:

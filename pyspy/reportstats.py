@@ -14,8 +14,8 @@ import time
 
 import requests
 
-import config
-import statusmsg
+from . import config
+from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian, blops
 # **********************************************************************

@@ -12,7 +12,7 @@ import logging
 import os
 import pickle
 
-import config
+from . import config
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian
 # **********************************************************************

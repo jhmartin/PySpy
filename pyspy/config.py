@@ -13,7 +13,7 @@ import uuid
 
 import wx  # required for colour codes in DARK_MODE
 
-import optstore
+from . import optstore
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words MEIPASS, datefmt, russsian, pyinstaller, posix, pyspy
 # // cSpell:words zkill, amarr, caldari, gallente, minmatar, isfile

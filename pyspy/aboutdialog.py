@@ -11,8 +11,8 @@ import time
 import wx
 import wx.adv
 
-import __main__
-import config
+#import __main__
+from . import config
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian, wxpython, ccp's
 # // cSpell:words

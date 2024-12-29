@@ -13,15 +13,13 @@ import wx
 import wx.grid as WXG
 import wx.lib.agw.persist as pm
 
-import config
-
-import db
-
-import aboutdialog
-import highlightdialog
-import ignoredialog
-import sortarray
-import statusmsg
+from . import config
+from . import db
+from . import aboutdialog
+from . import highlightdialog
+from . import ignoredialog
+from . import sortarray
+from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words wrusssian, wxpython, HRULES, VRULES, ELLIPSIZE, zkill,
 # // cSpell:words blops, Unregister, russsian, chkversion, posix,
@@ -33,7 +31,7 @@ Logger = logging.getLogger(__name__)
 
 class Frame(wx.Frame):
     def __init__(self, *args, **kwds):
-
+        app = wx.GetApp()
         # Persistent Options
         self.options = config.OPTIONS_OBJECT
 
@@ -533,7 +531,7 @@ class Frame(wx.Frame):
         if event is not None:
             event.Skip(True)
 
-    def appendString(self, org, app):
+    def appendString(self, org, apr):
         """
         Appends a String to another string with a "+" if the org string is not "".
 
@@ -542,9 +540,9 @@ class Frame(wx.Frame):
         :return:
         """
         if org == "-":
-            return app
+            return apr
         else:
-            return org + " + " + app
+            return org + " + " + apr
 
     def updateList(self, outlist, duration=None):
         '''
@@ -738,13 +736,13 @@ class Frame(wx.Frame):
                 str(len(outlist) - ignore_count) +
                 " characters analysed, in " + str(duration) +
                 " seconds (" + str(ignore_count) + " ignored). Double click " +
-                "character to go to zKillboard."
+                "character to go to zKillboard.", app
             )
         else:
             statusmsg.push_status(
                 str(len(outlist) - ignore_count) + " characters analysed (" +
                 str(ignore_count) + " ignored). Double click character to go " +
-                " to zKillboard."
+                " to zKillboard.", app
             )
 
     def updateStatusbar(self, msg):
@@ -1228,7 +1226,7 @@ class Frame(wx.Frame):
         cur.execute(query_statement)
         conn.commit()
         conn.close()
-        statusmsg.push_status("Cleared character cache")
+        statusmsg.push_status("Cleared character cache", app)
 
 
 class App(wx.App):
