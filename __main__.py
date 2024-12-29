@@ -101,10 +101,10 @@ background_thread = threading.Thread(
 )
 background_thread.start()
 
-# update_checker = threading.Thread(
-#    target=chkversion.chk_github_update,
-#    daemon=True
-#    )
-# update_checker.start()
+update_checker = threading.Thread(
+    target=chkversion.chk_github_update,
+    daemon=True
+)
+update_checker.start()
 
 app.MainLoop()
