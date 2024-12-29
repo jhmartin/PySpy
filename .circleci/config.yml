@@ -10,12 +10,16 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Write VERSION
+          shell: bash.exe
+          command: echo "${CIRCLE_TAG:-$CIRCLE_SHA1}" > VERSION
+      - run:
           name: Build PySpy
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
             $tagOrSha1 = if ($env:CIRCLE_TAG) { $env:CIRCLE_TAG } else { $env:CIRCLE_SHA1 }
-            echo $tagOrSha1 > VERSION            
+            Get-Content -Path VERSION
             pip install -r requirements.txt
             pip3 install pyinstaller
             pyinstaller __main__.spec
