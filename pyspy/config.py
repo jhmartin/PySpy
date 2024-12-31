@@ -34,7 +34,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-# If application is frozen executable
+# If application is frozen executable (pyinstaller)
 if getattr(sys, 'frozen', False):
     ABOUT_ICON = resource_path("pyspy_mid.png")
     application_path = os.path.dirname(sys.executable)
@@ -51,13 +51,21 @@ if getattr(sys, 'frozen', False):
         PREF_PATH = local_path
         LOG_PATH = local_path
         ICON_FILE = resource_path("pyspy.ico")
-# If application is run as script
+# If application is run as script (pninst)
 # elif __file__:
 else:
     ABOUT_ICON = resource_path("assets/pyspy_mid.png")
     application_path = os.path.dirname(__file__)
     if platform.system() == "Linux":
         PREF_PATH = os.path.expanduser("~/.config/pyspy")
+    elif os.name == "nt":
+        local_path = os.path.join(
+            os.path.expandvars("%LocalAppData%"), "PySpy")
+        if not os.path.exists(local_path):
+            os.makedirs(local_path)
+        PREF_PATH = local_path
+        LOG_PATH = local_path
+        ICON_FILE = resource_path("pyspy.ico")
     else:
         PREF_PATH = os.path.join(application_path, "tmp")
     if not os.path.exists(PREF_PATH):
