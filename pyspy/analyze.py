@@ -14,10 +14,10 @@ import queue
 import time
 import datetime
 
-import apis
-import config
-import db
-import statusmsg
+from . import apis
+from . import config
+from . import db
+from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words affil, zkill, blops, qsize, numid, russsian, ccp's
 # // cSpell:words records_added
@@ -26,26 +26,28 @@ Logger = logging.getLogger(__name__)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
 
-def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
-    chars_found = get_char_ids(conn_mem, cur_mem, char_names)
+def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk, app):
+    chars_found = get_char_ids(conn_mem, cur_mem, char_names, app)
     if chars_found > 0:
         # Run Pyspy remote database query in seprate thread
         tp = threading.Thread(
-            target=get_character_intel(conn_mem, cur_mem),
+            target=get_character_intel(conn_mem, cur_mem, app),
             daemon=True
-            )
+        )
         tp.start()
 
         # Run zKill query in seprate thread
         char_ids_mem = cur_mem.execute(
             "SELECT char_id, last_update FROM characters ORDER BY char_name"
-            ).fetchall()
+        ).fetchall()
 
-        cache_max_age = datetime.datetime.now() - datetime.timedelta(seconds=config.CACHE_TIME)
+        cache_max_age = datetime.datetime.now(
+        ) - datetime.timedelta(seconds=config.CACHE_TIME)
 
         char_ids_dsk = cur_dsk.execute(
-            "SELECT char_id, last_update FROM characters WHERE last_update > ? ORDER BY char_name", (cache_max_age,)
-            ).fetchall()
+            "SELECT char_id, last_update FROM characters WHERE last_update > ? ORDER BY char_name", (
+                cache_max_age,)
+        ).fetchall()
 
         char_ids_mem_d = dict(char_ids_mem)
         char_ids_dsk_d = dict(char_ids_dsk)
@@ -53,20 +55,21 @@ def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
         ids_mem = set(char_ids_mem_d.keys())
         ids_dsk = set(char_ids_dsk_d.keys())
 
-        cache_hits = ids_mem & ids_dsk # Intersection of what we want and what we already have
+        # Intersection of what we want and what we already have
+        cache_hits = ids_mem & ids_dsk
         cache_miss = ids_mem - cache_hits
 
         Logger.debug("Cache Hits - {}".format(len(cache_hits)))
         Logger.debug("Cache Miss - {}".format(len(cache_miss)))
 
-        zkill_req =  [r for r in char_ids_mem if r[0] in cache_miss]
+        zkill_req = [r for r in char_ids_mem if r[0] in cache_miss]
 
         q_main = queue.Queue()
         tz = zKillStats(zkill_req, q_main)
         tz.start()
 
-        get_char_affiliations(conn_mem, cur_mem)
-        get_affil_names(conn_mem, cur_mem)
+        get_char_affiliations(conn_mem, cur_mem, app)
+        get_affil_names(conn_mem, cur_mem, app)
 
         # Join zKill thread
         tz.join()
@@ -78,21 +81,27 @@ def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
             '''UPDATE characters SET kills=?, blops_kills=?, hic_losses=?,
             week_kills=?, losses=?, solo_ratio=?, sec_status=?, last_update=?
             WHERE char_id=?'''
-            )
+        )
 
         cache_stats = []
         for char_id in cache_hits:
             # kills, blops_kills, hic_losses, week_kills, losses, solo_ratio, sec_status, id
             cache_query = '''SELECT kills, blops_kills, hic_losses, week_kills, losses, solo_ratio,
              sec_status, last_update, char_id FROM characters WHERE char_id = ?'''
-            stat = tuple(cur_dsk.execute(cache_query, (char_id,)).fetchone()) #SHOULD ONLY BE ONE ENTRY!!!
+            stat = tuple(cur_dsk.execute(cache_query, (char_id,)
+                                         # SHOULD ONLY BE ONE ENTRY!!!
+                                         ).fetchone())
             cache_stats.append(stat)
 
         cache_char_query_string = (
             '''INSERT OR REPLACE INTO characters (char_id, char_name) VALUES (?, ?)'''
         )
 
-        db.write_many_to_db(conn_dsk, cur_dsk, cache_char_query_string, zkill_req)
+        db.write_many_to_db(
+            conn_dsk,
+            cur_dsk,
+            cache_char_query_string,
+            zkill_req)
         db.write_many_to_db(conn_dsk, cur_dsk, query_string, zkill_stats)
 
         db.write_many_to_db(conn_mem, cur_mem, query_string, zkill_stats)
@@ -107,31 +116,33 @@ def main(char_names, conn_mem, cur_mem, conn_dsk, cur_dsk):
         return
 
 
-def get_char_ids(conn, cur, char_names):
-    char_names = json.dumps(char_names[0:config.MAX_NAMES])  # apis max char is 1000
-    statusmsg.push_status("Resolving character names to IDs...")
+def get_char_ids(conn, cur, char_names, app):
+    # apis max char is 1000
+    char_names = json.dumps(char_names[0:config.MAX_NAMES])
+    statusmsg.push_status("Resolving character names to IDs...", app)
     try:
-        characters = apis.post_req_ccp("universe/ids/", char_names)
+        characters = apis.post_req_ccp("universe/ids/", char_names, app)
         characters = characters['characters']
-    except:
+    except BaseException:
         return 0
     records = ()
     for r in characters:
         records = records + ((r["id"], r["name"]),)
     query_string = (
         '''INSERT OR REPLACE INTO characters (char_id, char_name) VALUES (?, ?)'''
-        )
+    )
     records_added = db.write_many_to_db(conn, cur, query_string, records)
     return records_added
 
 
-def get_char_affiliations(conn, cur):
+def get_char_affiliations(conn, cur, app):
     char_ids = cur.execute("SELECT char_id FROM characters").fetchall()
     char_ids = json.dumps(tuple([r[0] for r in char_ids]))
-    statusmsg.push_status("Retrieving character affiliation IDs...")
+    statusmsg.push_status("Retrieving character affiliation IDs...", app)
     try:
-        affiliations = apis.post_req_ccp("characters/affiliation/", char_ids)
-    except:
+        affiliations = apis.post_req_ccp(
+            "characters/affiliation/", char_ids, app)
+    except BaseException:
         Logger.info("Failed to obtain character affiliations.", exc_info=True)
         raise Exception
 
@@ -146,27 +157,28 @@ def get_char_affiliations(conn, cur):
     query_string = (
         '''UPDATE characters SET corp_id=?, alliance_id=?, faction_id=?
         WHERE char_id=?'''
-        )
+    )
     db.write_many_to_db(conn, cur, query_string, records)
 
 
-def get_affil_names(conn, cur):
+def get_affil_names(conn, cur, app):
     # use select distinct to get corp and alliance ids and reslove them
     alliance_ids = cur.execute(
         '''SELECT DISTINCT alliance_id FROM characters
         WHERE alliance_id IS NOT 0'''
-        ).fetchall()
+    ).fetchall()
     corp_ids = cur.execute(
         "SELECT DISTINCT corp_id FROM characters WHERE corp_id IS NOT 0"
-        ).fetchall()
+    ).fetchall()
 
     ids = alliance_ids + corp_ids
     ids = json.dumps(tuple([r[0] for r in ids]))
 
-    statusmsg.push_status("Obtaining corporation and alliance names and zKillboard data...")
+    statusmsg.push_status(
+        "Obtaining corporation and alliance names and zKillboard data...", app)
     try:
-        names = apis.post_req_ccp("universe/names/", ids)
-    except:
+        names = apis.post_req_ccp("universe/names/", ids, app)
+    except BaseException:
         Logger.info("Failed request corporation and alliance names.",
                     exc_info=True)
         raise Exception
@@ -181,7 +193,8 @@ def get_affil_names(conn, cur):
         query_string = ('''INSERT INTO alliances (id, name) VALUES (?, ?)''')
         db.write_many_to_db(conn, cur, query_string, alliances)
     if corporations:
-        query_string = ('''INSERT INTO corporations (id, name) VALUES (?, ?)''')
+        query_string = (
+            '''INSERT INTO corporations (id, name) VALUES (?, ?)''')
         db.write_many_to_db(conn, cur, query_string, corporations)
 
 
@@ -223,12 +236,12 @@ class zKillStats(threading.Thread):
             zkill_stats.append([
                 kills, blops_kills, hic_losses, week_kills, losses, solo_ratio,
                 sec_status, id
-                ])
+            ])
         self._q_main.put(zkill_stats)
         return
 
 
-def get_character_intel(conn, cur):
+def get_character_intel(conn, cur, app):
     '''
     Adds certain character killboard statistics derived from PySpy's
     proprietary database to the local SQLite3 database.
@@ -237,30 +250,30 @@ def get_character_intel(conn, cur):
     :param `cur`: SQLite3 cursor object.
     '''
     char_ids = cur.execute("SELECT char_id FROM characters").fetchall()
-    char_intel = apis.post_proprietary_db(char_ids)
+    char_intel = apis.post_proprietary_db(char_ids, app)
     records = ()
     for r in char_intel:
         char_id = r["character_id"]
-        last_loss_date = r.get("last_loss_date",0)
-        last_kill_date = r.get("last_kill_date",0)
-        avg_attackers = r.get("avg_attackers",0)
-        covert_prob = r.get("covert_prob",0)
-        normal_prob = r.get("normal_prob",0)
-        last_cov_ship = r.get("last_cov_ship",0)
-        last_norm_ship = r.get("last_norm_ship",0)
-        abyssal_losses = r.get("abyssal_losses",0)
+        last_loss_date = r.get("last_loss_date", 0)
+        last_kill_date = r.get("last_kill_date", 0)
+        avg_attackers = r.get("avg_attackers", 0)
+        covert_prob = r.get("covert_prob", 0)
+        normal_prob = r.get("normal_prob", 0)
+        last_cov_ship = r.get("last_cov_ship", 0)
+        last_norm_ship = r.get("last_norm_ship", 0)
+        abyssal_losses = r.get("abyssal_losses", 0)
 
         records = records + ((
             last_loss_date, last_kill_date, avg_attackers, covert_prob,
             normal_prob, last_cov_ship, last_norm_ship, abyssal_losses, char_id
-            ), )
+        ), )
 
     query_string = (
         '''UPDATE characters SET last_loss_date=?, last_kill_date=?,
         avg_attackers=?, covert_prob=?, normal_prob=?,
         last_cov_ship=?, last_norm_ship=?, abyssal_losses=?
         WHERE char_id=?'''
-        )
+    )
     db.write_many_to_db(conn, cur, query_string, records)
 
 
@@ -282,5 +295,5 @@ def output_list(cur):
         LEFT JOIN ships AS cs ON ch.last_cov_ship = cs.id
         LEFT JOIN ships AS ns ON ch.last_norm_ship = ns.id
         ORDER BY ch.char_name'''
-        )
+    )
     return cur.execute(query_string).fetchall()

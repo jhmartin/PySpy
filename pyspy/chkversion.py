@@ -11,8 +11,7 @@ import datetime
 import requests
 import wx
 
-import __main__
-import config
+from . import config
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian
 # **********************************************************************
@@ -21,7 +20,7 @@ Logger = logging.getLogger(__name__)
 CURRENT_VER = config.CURRENT_VER
 
 
-def chk_github_update():
+def chk_github_update(app):
     last_check = config.OPTIONS_OBJECT.Get("last_update_check", 0)
     if last_check == 0 or last_check < datetime.date.today():
         # Get latest version available on GitHub
@@ -36,9 +35,9 @@ def chk_github_update():
                 "last_update_check", datetime.date.today())
             if latest_ver != CURRENT_VER:
                 wx.CallAfter(
-                    __main__.app.PySpy.updateAlert,
+                    app.PySpy.updateAlert,
                     latest_ver,
                     CURRENT_VER)
-        except BaseException:
-            Logger.error(
-                "Could not check GitHub for potential available updates.")
+        except BaseException as e:
+            Logger.exception(
+                "Could not check GitHub for potential available updates.", exc_info=True)

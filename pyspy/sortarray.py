@@ -16,6 +16,7 @@ class SortArrayError(Exception):
     '''
     Base exception for any exceptions raised by SortArray.
     '''
+
     def __init__(self, msg=None):
         if msg is None:
             # Set some default useful error message
@@ -27,12 +28,14 @@ class OutOfBoundError(SortArrayError):
     '''
     Gets raised when `prim_col` is greater than the last column in `array`.
     '''
+
     def __init__(self, prim_col, sort_array):
         prim_col = prim_col
         array_columns = len(sort_array[0])
         msg = (
-            "Sort column index (%s) exceeds number of columns in the unsorted input array (%s)." % (prim_col, array_columns)
-            )
+            "Sort column index (%s) exceeds number of columns in the unsorted input array (%s)." % (
+                prim_col, array_columns)
+        )
         super(SortArrayError, self).__init__(msg)
 
 
@@ -84,7 +87,8 @@ def _determineApproach(array, sort_col):
     return sort_as_str
 
 
-def sort_array(array, prim_col, sec_col=None, prim_desc=False, sec_desc=False, case_sensitive=False):
+def sort_array(array, prim_col, sec_col=None, prim_desc=False,
+               sec_desc=False, case_sensitive=False):
     '''
     Take an array (list of lists/tuples) with numeric or text values (or
     mix of both) and sort it by a primary column and optionally by a
@@ -123,21 +127,24 @@ def sort_array(array, prim_col, sec_col=None, prim_desc=False, sec_desc=False, c
         if sec_is_str and case_sensitive:
             sorted_array = sorted(
                 array,
-                key=lambda r: str(r[sec_col]) if r[sec_col] is not None else "",
+                key=lambda r: str(
+                    r[sec_col]) if r[sec_col] is not None else "",
                 reverse=sec_desc
-                )
+            )
         elif sec_is_str and not case_sensitive:
             sorted_array = sorted(
                 array,
-                key=lambda r: str(r[sec_col]).lower() if r[sec_col] is not None else "",
+                key=lambda r: str(r[sec_col]).lower(
+                ) if r[sec_col] is not None else "",
                 reverse=sec_desc
-                )
+            )
         else:
             sorted_array = sorted(
                 array,
-                key=lambda r: float(r[sec_col]) if r[sec_col] is not None else float("-inf"),
+                key=lambda r: float(
+                    r[sec_col]) if r[sec_col] is not None else float("-inf"),
                 reverse=sec_desc
-                )
+            )
         array = sorted_array
 
     # Primary Sort -----------------------------------------------------
@@ -146,18 +153,20 @@ def sort_array(array, prim_col, sec_col=None, prim_desc=False, sec_desc=False, c
             array,
             key=lambda r: str(r[prim_col]) if r[prim_col] is not None else "",
             reverse=prim_desc
-            )
+        )
     elif prim_is_str and not case_sensitive:
         sorted_array = sorted(
             array,
-            key=lambda r: str(r[prim_col]).lower() if r[prim_col] is not None else "",
+            key=lambda r: str(r[prim_col]).lower(
+            ) if r[prim_col] is not None else "",
             reverse=prim_desc
-            )
+        )
     else:
         sorted_array = sorted(
             array,
-            key=lambda r: float(r[prim_col]) if r[prim_col] is not None else float("-inf"),
+            key=lambda r: float(
+                r[prim_col]) if r[prim_col] is not None else float("-inf"),
             reverse=prim_desc
-            )
+        )
 
     return sorted_array

@@ -92,13 +92,9 @@ Furthermore PySpy can also highlight a character if he uses Black Ops and Heavy 
 
 You can download the latest release for your operating system [here](https://github.com/jhmartin/PySpy/releases/latest).
 
-PySpy comes as a single-file executable. You can run PySpy from any folder location you like.
-
-If you want to build PySpy into an executable yourself, then the pyinstaller spec file is provided, you will likely need to provide the api-ms-core dlls that python requires. details of this can be found [here](https://github.com/pyinstaller/pyinstaller/issues/4047#issuecomment-460869714). You will know you need them if pyinstaller complains about missing them when run.
-
 ## Uninstalling PySpy
 
-Delete the PySpy executable and remove the following files manually:
+Execute the uninstall program inside the PySPy directory.
 
 * **Windows**: PySpy saves preference and log files in a folder called  `PySpy` located at `%LocalAppData%`.
 
@@ -111,11 +107,9 @@ Delete the PySpy executable and remove the following files manually:
 * The Windows executables are built using [pyinstaller](https://www.pyinstaller.org/), licensed under [its own modified GPL license](https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/COPYING.txt).
 * PySpy's icon was created by Jojo Mendoza and is licensed under [Creative Commons (Attribution-Noncommercial 3.0 Unported)](https://creativecommons.org/licenses/by-nc/3.0/). It is available on [IconFinder](https://www.iconfinder.com/icons/1218719/cyber_hat_spy_undercover_user_icon).
 
-## 'Virus' alerts, unsigned code
+## Unsigned code
 
-PyInstaller is frequently flagged by MS Defender and other virus scanners.  There is little I can do about this except do my best to demonstrate it is a false positive. You can see CI-built executables at https://app.circleci.com/pipelines/github/jhmartin/PySpy to see that there is no untoward code. Alternatively you can build a copy yourself.
-
-Similarly, code signing certs for free projects are not free, so you will get an alert about that which is expected.
+Code signing certs for free projects are not free, so you will get an alert about that which is expected.
 
 ## License
 

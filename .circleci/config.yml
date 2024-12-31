@@ -12,32 +12,49 @@ jobs:
       - run:
           name: Write VERSION
           shell: bash.exe
-          command: echo "${CIRCLE_TAG:-$CIRCLE_SHA1}" > VERSION
+          command: echo "${CIRCLE_TAG:-$CIRCLE_SHA1}" > pyspy/VERSION
       - run:
-          name: Build PySpy
+          name: Set VERSION in installer.cfg
+          shell: bash.exe
+          command: sed -i -e "s/@VERSION@/${CIRCLE_TAG:-$CIRCLE_SHA1}/g" installer.cfg
+      - run:
+          name: Install NSIS via Chocolatey
+          command: choco install nsis -y
+      - run:
+          name: Build pyperclip
+          command: |
+            mkdir whl
+            pip3 wheel --wheel-dir=whl pyperclip
+      - run:
+          name: Install pynsist
           command: |
             $env:Path = 'C:\Users\circleci\.pyenv\pyenv-win\bin;C:\Users\circleci\.pyenv\pyenv-win\shims;' + $env:Path
             python --version
+            pip3 install pynsist
+      - run:
+          name: Install PySpy requirements
+          command: |
             $tagOrSha1 = if ($env:CIRCLE_TAG) { $env:CIRCLE_TAG } else { $env:CIRCLE_SHA1 }
-            Get-Content -Path VERSION
             pip install -r requirements.txt
-            pip3 install pyinstaller
-            pyinstaller __main__.spec
+      - run:
+          name: Package pynsist
+          command: |
+            pynsist installer.cfg
       - run:
           name: Compress Result
           command: |
             $ProgressPreference = "SilentlyContinue"
-            Get-ChildItem -Recurse
+            mkdir dist
             $tagOrSha1 = if ($env:CIRCLE_TAG) { $env:CIRCLE_TAG } else { $env:CIRCLE_SHA1 }
-            Compress-Archive .\\dist\\PySpy.exe .\\dist\\PySpy-$tagOrSha1.zip
-            Remove-Item .\\dist\\PySpy.exe
-            Get-ChildItem -Recurse
+            Compress-Archive .\\build\\*.exe .\\dist\\PySpy-$tagOrSha1.zip
+            Get-ChildItem -Recurse build
+            Get-ChildItem -Recurse dist
       - store_artifacts:
-          path: dist
-      - persist_to_workspace:
-          root: dist
-          paths:
-            - .
+           path: dist
+#      - persist_to_workspace:
+#          root: dist
+#          paths:
+#            - .
 workflows:
   workflow:
     jobs:

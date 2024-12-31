@@ -9,8 +9,8 @@ import datetime
 import logging
 import sqlite3
 
-import config
-import apis
+from . import config
+from . import apis
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words wrusssian, sqlite, blops, russsian
 # **********************************************************************
@@ -32,6 +32,7 @@ def connect_memory_db():
     prepare_ship_data(conn, cur)
     return conn, cur
 
+
 def connect_persistent_db():
     '''
         Create on disk database
@@ -45,6 +46,7 @@ def connect_persistent_db():
     prepare_tables(conn, cur)
     prepare_ship_data(conn, cur)
     return conn, cur
+
 
 def prepare_tables(conn, cur):
     '''
@@ -60,24 +62,24 @@ def prepare_tables(conn, cur):
         last_kill_date INT, avg_attackers NUMERIC, covert_prob NUMERIC,
         normal_prob NUMERIC, last_cov_ship INT, last_norm_ship INT,
         abyssal_losses INT, last_update TEXT)'''
-        )
+    )
     cur.execute(
         '''CREATE TABLE IF NOT EXISTS corporations (id INT PRIMARY KEY, name TEXT)'''
-        )
+    )
     cur.execute(
         '''CREATE TABLE IF NOT EXISTS alliances (id INT PRIMARY KEY, name TEXT)'''
-        )
+    )
     cur.execute(
         '''CREATE TABLE IF NOT EXISTS factions (id INT PRIMARY KEY, name TEXT)'''
-        )
+    )
     cur.execute(
         '''CREATE TABLE IF NOT EXISTS ships (id INT PRIMARY KEY, name TEXT)'''
-        )
+    )
     # Populate this table with the 4 faction warfare factions
     cur.executemany(
         '''INSERT OR REPLACE INTO factions (id, name) VALUES (?, ?)''',
         config.FACTION_IDS
-        )
+    )
     conn.commit()
 
 
@@ -95,7 +97,7 @@ def prepare_ship_data(conn, cur):
     cur.executemany(
         '''INSERT OR REPLACE INTO ships (id, name) VALUES (?, ?)''',
         config.OPTIONS_OBJECT.Get("ship_data", 0)
-        )
+    )
     conn.commit()
 
 
@@ -111,7 +113,9 @@ def write_many_to_db(conn, cur, query_string, records, keepalive=True):
         cur.executemany(query_string, records)
         conn.commit()
     except Exception as e:
-        Logger.error("Failed to write orders to database. {}".format(e), exc_info=True)
+        Logger.error(
+            "Failed to write orders to database. {}".format(e),
+            exc_info=True)
         raise Exception from e
     records_added = conn.total_changes
     if not keepalive:
