@@ -13,7 +13,6 @@ from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
 
 from . import config
 from . import sortarray
-from . import statusmsg
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian, ccp's, pyperclip, chkversion, clpbd, gui
 # **********************************************************************
@@ -25,7 +24,7 @@ class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
 
     def __init__(self, parent):
         wx.ListCtrl.__init__(self, parent, wx.ID_ANY, style=wx.LC_REPORT |
-        wx.SUNKEN_BORDER)
+                             wx.SUNKEN_BORDER)
         CheckListCtrlMixin.__init__(self)
         ListCtrlAutoWidthMixin.__init__(self)
 
@@ -33,7 +32,7 @@ class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
 class HighlightDialog(wx.Frame):
     def __init__(self, parent, *args, **kwds):
         kwds["style"] = (kwds.get("style", 0) | wx.CAPTION | wx.CLIP_CHILDREN |
-            wx.CLOSE_BOX | wx.FRAME_FLOAT_ON_PARENT | wx.RESIZE_BORDER)
+                         wx.CLOSE_BOX | wx.FRAME_FLOAT_ON_PARENT | wx.RESIZE_BORDER)
         wx.Frame.__init__(self, parent, *args, **kwds)
 
         self.Font = self.Font.Scaled(config.OPTIONS_OBJECT.Get("FontScale", 1))
@@ -45,14 +44,21 @@ class HighlightDialog(wx.Frame):
         self.highlightList.InsertColumn(1, 'ID', width=0)
         self.highlightList.InsertColumn(2, 'Type')
         self.buttonPanel = wx.Panel(self, wx.ID_ANY)
-        self.appBtn = wx.Button(self.buttonPanel, wx.ID_OK, "Delete Selected Entries")
-        self.cnclBtn = wx.Button(self.buttonPanel, wx.ID_CANCEL, "Cancel Changes")
+        self.appBtn = wx.Button(
+            self.buttonPanel,
+            wx.ID_OK,
+            "Delete Selected Entries")
+        self.cnclBtn = wx.Button(
+            self.buttonPanel,
+            wx.ID_CANCEL,
+            "Cancel Changes")
 
         self.Bind(wx.EVT_BUTTON, self.OnApply, id=self.appBtn.GetId())
         self.Bind(wx.EVT_BUTTON, self.OnCancel, id=self.cnclBtn.GetId())
         self.Bind(wx.EVT_CHAR_HOOK, self.OnHook)
 
-        self.highlighted_entities = config.OPTIONS_OBJECT.Get("highlightedList", default=[])
+        self.highlighted_entities = config.OPTIONS_OBJECT.Get(
+            "highlightedList", default=[])
         self._populateList()
 
         self.__set_properties()
@@ -94,13 +100,18 @@ class HighlightDialog(wx.Frame):
     def __do_layout(self):
         main = wx.BoxSizer(wx.VERTICAL)
         buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
-        instrLbl = wx.StaticText(self, wx.ID_ANY, "Select entities to be removed from highlight list:", style=wx.ALIGN_LEFT)
+        instrLbl = wx.StaticText(
+            self,
+            wx.ID_ANY,
+            "Select entities to be removed from highlight list:",
+            style=wx.ALIGN_LEFT)
         main.Add(instrLbl, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
         main.Add(self.highlightList, 1, wx.ALL | wx.EXPAND, 10)
         buttonSizer.Add(self.appBtn, 1, wx.RIGHT, 5)
         buttonSizer.Add(self.cnclBtn, 1, wx.LEFT, 5)
         self.buttonPanel.SetSizer(buttonSizer)
-        main.Add(self.buttonPanel, 0, wx.ALIGN_BOTTOM | wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
+        main.Add(self.buttonPanel, 0, wx.ALIGN_BOTTOM |
+                 wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
         self.SetSizer(main)
         self.Layout()
         self.Centre()
@@ -110,7 +121,8 @@ class HighlightDialog(wx.Frame):
         if self.highlighted_entities == []:
             return
         if len(self.highlighted_entities) > 1:
-            self.highlighted_entities = sortarray.sort_array(self.highlighted_entities, 2, 1)
+            self.highlighted_entities = sortarray.sort_array(
+                self.highlighted_entities, 2, 1)
         for i in self.highlighted_entities:
             index = self.highlightList.InsertItem(idx, i[1])
             self.highlightList.SetItem(index, 1, str(i[0]))

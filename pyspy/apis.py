@@ -25,7 +25,7 @@ Logger = logging.getLogger(__name__)
 # ESI Status
 # https://esi.evetech.net/ui/?version=meta#/Meta/get_status
 
-def post_req_ccp(esi_path, json_data):
+def post_req_ccp(esi_path, json_data, app):
     url = "https://esi.evetech.net/latest/" + esi_path + \
         "?datasource=tranquility"
     try:
@@ -33,7 +33,7 @@ def post_req_ccp(esi_path, json_data):
     except requests.exceptions.ConnectionError:
         Logger.info("No network connection.", exc_info=True)
         statusmsg.push_status(
-            "NETWORK ERROR: Check your internet connection and firewall settings."
+            "NETWORK ERROR: Check your internet connection and firewall settings.", app
         )
         time.sleep(5)
         return "network_error"
@@ -44,7 +44,8 @@ def post_req_ccp(esi_path, json_data):
             str(r.status_code) + ", saying: " + server_msg, exc_info=True
         )
         statusmsg.push_status(
-            "CCP SERVER ERROR: " + str(r.status_code) + " (" + server_msg + ")"
+            "CCP SERVER ERROR: " +
+            str(r.status_code) + " (" + server_msg + ")", app
         )
         return "server_error"
     return r.json()
@@ -72,10 +73,10 @@ class Query_zKill(threading.Thread):
             r = requests.get(url, headers=headers)
         except requests.exceptions.ConnectionError:
             Logger.info("No network connection.", exc_info=True)
-            statusmsg.push_status(
-                '''NETWORK ERROR: Check your internet connection
-                and firewall settings.'''
-            )
+#            statusmsg.push_status(
+#                '''NETWORK ERROR: Check your internet connection
+#                and firewall settings.'''
+#            )
             time.sleep(5)
             return "network error"
         if r.status_code != 200:
@@ -89,10 +90,10 @@ class Query_zKill(threading.Thread):
                 str(self._char_id) + ". Error code: " + str(r.status_code),
                 exc_info=True
             )
-            statusmsg.push_status(
-                "ZKILL SERVER ERROR: " +
-                str(r.status_code) + " (" + server_msg + ")"
-            )
+#            statusmsg.push_status(
+#                "ZKILL SERVER ERROR: " +
+#                str(r.status_code) + " (" + server_msg + ")"
+#            )
             return "server error"
         try:
             r = r.json()
@@ -152,7 +153,7 @@ class Query_zKill(threading.Thread):
         return
 
 
-def post_proprietary_db(character_ids):
+def post_proprietary_db(character_ids, app):
     '''
     Query PySpy's proprietary kill database for the character ids
     provided as a list or tuple of integers. Returns a list of JSON dicts
@@ -177,7 +178,7 @@ def post_proprietary_db(character_ids):
         except requests.exceptions.ConnectionError as e:
             Logger.info("No network connection.", exc_info=True)
             statusmsg.push_status(
-                "NETWORK ERROR: Check your internet connection and firewall settings."
+                "NETWORK ERROR: Check your internet connection and firewall settings.", app
             )
             time.sleep(5)
             raise e
@@ -189,7 +190,7 @@ def post_proprietary_db(character_ids):
             )
             statusmsg.push_status(
                 "PYSPY SERVER ERROR: " +
-                str(r.status_code) + " (" + server_msg + ")"
+                str(r.status_code) + " (" + server_msg + ")", app
             )
             return "server_error"
         results.append(r.json())

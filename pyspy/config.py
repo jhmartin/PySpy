@@ -44,14 +44,15 @@ if getattr(sys, 'frozen', False):
         ICON_FILE = resource_path("pyspy.png")
 
     elif os.name == "nt":
-        local_path = os.path.join(os.path.expandvars("%LocalAppData%"), "PySpy")
+        local_path = os.path.join(
+            os.path.expandvars("%LocalAppData%"), "PySpy")
         if not os.path.exists(local_path):
             os.makedirs(local_path)
         PREF_PATH = local_path
         LOG_PATH = local_path
         ICON_FILE = resource_path("pyspy.ico")
 # If application is run as script
-#elif __file__:
+# elif __file__:
 else:
     ABOUT_ICON = resource_path("assets/pyspy_mid.png")
     application_path = os.path.dirname(__file__)
@@ -83,13 +84,13 @@ with open(resource_path('VERSION'), 'r') as ver_file:
 if os.path.isfile(GUI_CFG_FILE) and not os.path.isfile(OPTIONS_FILE):
     try:
         os.remove(GUI_CFG_FILE)
-    except:
+    except BaseException:
         pass
 if OPTIONS_OBJECT.Get("version", 0) != CURRENT_VER:
     print("Config file erased.")
     try:
         os.remove(GUI_CFG_FILE)
-    except:
+    except BaseException:
         pass
     for key in OPTIONS_OBJECT.ListKeys():
         if key != "uuid":
@@ -109,8 +110,10 @@ ZKILL_CALLS = 100
 GUI_TITLE = "PySpy " + CURRENT_VER
 FONT_SCALE_MIN = 7  # 7 equates to 70%
 FONT_SCALE_MAX = 13
-MAX_SHIP_DATA_AGE = 7  # The maximum age of ship data (used in db.prepare_ship_data)
-CYNO_HL_PERCENTAGE = 0.05  # The minimum cover / normal cyno probability for highlighting
+# The maximum age of ship data (used in db.prepare_ship_data)
+MAX_SHIP_DATA_AGE = 7
+# The minimum cover / normal cyno probability for highlighting
+CYNO_HL_PERCENTAGE = 0.05
 CACHE_TIME = 43200  # Seconds for which zkill requests are cached
 
 # Colour Scheme
@@ -123,7 +126,7 @@ DARK_MODE = {
     "HL1": wx.Colour(237, 72, 59),  # Red
     "HL2": wx.Colour(62, 157, 250),  # Blue
     "HL3": wx.Colour(237, 47, 218)  # Pink
-    }
+}
 
 NORMAL_MODE = {
     "BG": wx.Colour(-1, -1, -1),
@@ -133,7 +136,7 @@ NORMAL_MODE = {
     "HL1": wx.Colour(187, 55, 46),
     "HL2": wx.Colour(38, 104, 166),
     "HL3": wx.Colour(237, 47, 218)
-    }
+}
 
 # Note, Amarr and Caldari are allied and have IDs ending on uneven integers.
 # Likewise, Gallente and Minmatar, also allied, have even IDs.

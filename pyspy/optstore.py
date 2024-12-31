@@ -27,6 +27,7 @@ class PersistentOptions():
     Creates a dictionary object to store various variables in a
     pickle file between sessions.
     '''
+
     def __init__(self, options_file):
         '''
         :param `options_file`: the relative or absolute path to the pickle file;
@@ -75,7 +76,7 @@ class PersistentOptions():
         '''
         try:
             del self._options[key]
-        except:
+        except BaseException:
             raise Exception("ERROR: no such key: " + str(key))
 
     def Save(self):
@@ -102,7 +103,7 @@ class PersistentOptions():
         '''
         try:
             pickle_dir = os.path.dirname(pickle_file)
-        except:
+        except BaseException:
             pickle_dir = "./"
         pickle_data = data
         try:
@@ -111,7 +112,9 @@ class PersistentOptions():
             with open(pickle_file, 'wb') as file:
                 pickle.dump(pickle_data, file, pickle.HIGHEST_PROTOCOL)
         except Exception:
-            Logger.warn("Failed to create / store pickle file.", exc_info=True)
+            Logger.warning(
+                "Failed to create / store pickle file.",
+                exc_info=True)
         finally:
             return
 
@@ -128,6 +131,6 @@ class PersistentOptions():
                 pickle_data = pickle.load(file)
             return pickle_data
         except FileNotFoundError:
-            Logger.warn("Could not find pickle file.", exc_info=True)
+            Logger.warning("Could not find pickle file.", exc_info=True)
         finally:
             return pickle_data

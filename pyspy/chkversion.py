@@ -40,4 +40,4 @@ def chk_github_update(app):
                     CURRENT_VER)
         except BaseException as e:
             Logger.exception(
-                "Could not check GitHub for potential available updates.",  exc_info=True)
+                "Could not check GitHub for potential available updates.", exc_info=True)

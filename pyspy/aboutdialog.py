@@ -11,7 +11,7 @@ import time
 import wx
 import wx.adv
 
-#import __main__
+# import __main__
 from . import config
 # cSpell Checker - Correct Words****************************************
 # // cSpell:words russsian, wxpython, ccp's
@@ -40,7 +40,7 @@ def showAboutBox(parent, event=None):
     try:
         with open(config.resource_path('LICENSE.txt'), 'r') as lic_file:
             license = lic_file.read()
-    except:
+    except BaseException:
         license = "PySpy is licensed under the MIT License."
 
     info = wx.adv.AboutDialogInfo()

@@ -31,7 +31,7 @@ Logger = logging.getLogger(__name__)
 
 class Frame(wx.Frame):
     def __init__(self, *args, **kwds):
-        app = wx.GetApp()
+        self.app = wx.GetApp()
         # Persistent Options
         self.options = config.OPTIONS_OBJECT
 
@@ -736,13 +736,13 @@ class Frame(wx.Frame):
                 str(len(outlist) - ignore_count) +
                 " characters analysed, in " + str(duration) +
                 " seconds (" + str(ignore_count) + " ignored). Double click " +
-                "character to go to zKillboard.", app
+                "character to go to zKillboard.", self.app
             )
         else:
             statusmsg.push_status(
                 str(len(outlist) - ignore_count) + " characters analysed (" +
                 str(ignore_count) + " ignored). Double click character to go " +
-                " to zKillboard.", app
+                " to zKillboard.", self.app
             )
 
     def updateStatusbar(self, msg):
@@ -1167,7 +1167,6 @@ class Frame(wx.Frame):
                 self.grid.SetColSize(col[0], width)
             else:
                 self.grid.SetColSize(col[0], 0)
-            pass
 
     def _saveColumns(self):
         '''
@@ -1226,7 +1225,7 @@ class Frame(wx.Frame):
         cur.execute(query_statement)
         conn.commit()
         conn.close()
-        statusmsg.push_status("Cleared character cache", app)
+        statusmsg.push_status("Cleared character cache", self.app)
 
 
 class App(wx.App):

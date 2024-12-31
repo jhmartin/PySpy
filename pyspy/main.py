@@ -30,6 +30,8 @@ Logger = logging.getLogger(__name__)
 # Example call: Logger.info("Something badhappened", exc_info=True) ****
 
 app = None
+
+
 def watch_clpbd(myapp):
     try:
         Logger.info("Launched clipboard watcher")
@@ -42,10 +44,12 @@ def watch_clpbd(myapp):
                 for name in char_names:
                     valid = check_name_validity(name)
                     if valid is False:
-                        statusmsg.push_status("Ignored invalid charnames", myapp)
+                        statusmsg.push_status(
+                            "Ignored invalid charnames", myapp)
                         break
                 if valid:
-                    statusmsg.push_status("Clipboard change detected...", myapp)
+                    statusmsg.push_status(
+                        "Clipboard change detected...", myapp)
                     recent_value = clipboard
                     analyze_chars(clipboard.splitlines(), myapp)
             time.sleep(0.5)  # Short sleep between loops to reduce CPU load
