@@ -1,3 +1,10 @@
+# 0.5.5
+
+* Switch to PyNist to avoid virus warnings. Now installs instead of single-file-executable.
+* Fixed many lint violations
+* Removed the last of the reportstats code
+
+
 # 0.5.3
 
 * Update to latest dependencies
