@@ -51,10 +51,10 @@ jobs:
             Get-ChildItem -Recurse dist
       - store_artifacts:
            path: dist
-#      - persist_to_workspace:
-#          root: dist
-#          paths:
-#            - .
+      - persist_to_workspace:
+          root: dist
+          paths:
+            - .
 workflows:
   workflow:
     jobs:

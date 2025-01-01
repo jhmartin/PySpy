@@ -1,4 +1,4 @@
-# 0.5.5
+# 0.5.6
 
 * Switch to PyNist to avoid virus warnings. Now installs instead of single-file-executable.
 * Fixed many lint violations
