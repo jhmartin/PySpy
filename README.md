@@ -25,12 +25,12 @@ PySpy connects to [CCP's ESI API](https://esi.evetech.net/ui/) and the
 
 In addition, PySpy uses a proprietary database which creates summary statistics for approximately 2.4 million EVE Online pilots, based on some 50 million killmails dating back to December 2007. This database is updated daily, shortly after CCP server downtime.
 
-If you enjoy using PySpy and would like to show your appreciation, please feel free to send ISK in-game to White Russsian (with 3 's'). Thank you.
+If you enjoy using PySpy and would like to show your appreciation, please feel free to send ISK in-game to Toger, or the original author White Russsian. Thank you.
 
 ## How to use PySpy
 
 1. Open PySpy.
-2. In your EVE client, select a list of characters and copy them to the clipboard (`CTRL+C` on Windows *or* `⌘+C` on macOS).
+2. In your EVE client, select a list of characters and copy them to the clipboard (`CTRL+C` on Windows).
 3. Wait until PySpy is done and inspect the results.
 4. Double-click a name to open the respective zKillboard in your browser. zKillboard will open to the relevant page based on the column you have clicked on. (Or to the character page if you turn off advanced zkillboard linking)
 

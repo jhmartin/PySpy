@@ -32,8 +32,7 @@ def showAboutBox(parent, event=None):
 
     If you enjoy PySpy and want to show your appreciation
     to its author, you are welcome to send an ISK donation
-    in-game to White Russsian (with 3 "s"), or the current maintainer
-    Toramt.
+    in-game to Toger, or to the original authoer 'White Russsian'.
 
     Thank you."""
 
