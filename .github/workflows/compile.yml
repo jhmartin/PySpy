@@ -1,0 +1,52 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches:
+      - main
+      - githubactions
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12.6' # Specify your Python version here
+
+    - name: Install NSIS
+      run: choco install nsis
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build pyperclip wheel
+      run: |
+        mkdir whl
+        pip wheel --wheel-dir=whl pyperclip
+
+    - name: Install pynsist
+      run: pip install pynsist
+
+    - name: Determine Build Version
+      id: version
+      run: |
+        echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
+        echo $VERSION > VERSION
+
+    - name: Run pynsist
+      run: pynsist installer.cfg
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-installer
+        path: build/*.exe

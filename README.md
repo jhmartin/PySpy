@@ -11,7 +11,7 @@
   </a>
 </p>
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/jhmartin/PySpy/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/jhmartin/PySpy/tree/master)
+[![Build Windows Installer](https://github.com/jhmartin/PySpy/actions/workflows/compile.yml/badge.svg)](https://github.com/jhmartin/PySpy/actions/workflows/compile.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0eea4dec27e9686380f9/maintainability)](https://codeclimate.com/github/jhmartin/PySpy/maintainability)
 
 **Download the latest release at <https://github.com/jhmartin/PySpy/releases/latest>.**
@@ -21,7 +21,7 @@
 PySpy is a fast and simple character intel tool for [EVE Online](https://www.eveonline.com/). Within seconds, PySpy gathers useful information on character names from the in-game *local chat* window.
 
 PySpy connects to [CCP's ESI API](https://esi.evetech.net/ui/) and the
-[zKillboard API](https://github.com/zKillboard/zKillboard/wiki) and is available on Windows, macOS and Linux.
+[zKillboard API](https://github.com/zKillboard/zKillboard/wiki) and is available on Windows.
 
 In addition, PySpy uses a proprietary database which creates summary statistics for approximately 2.4 million EVE Online pilots, based on some 50 million killmails dating back to December 2007. This database is updated daily, shortly after CCP server downtime.
 
