@@ -1,3 +1,9 @@
+# 0.5.6
+* Switch pynsist for installation to avoid bogus virus warnings
+  * The unfortunate side effect is this is now an 'installer' not 'single file executable'.
+* Limit character lists to 3500
+* Allow up to 2 spaces in a character name
+
 # 0.5.3
 
 * Update to latest dependencies
