@@ -41,11 +41,14 @@ def watch_clpbd(myapp):
             clipboard = pyperclip.paste()
             if clipboard != recent_value:
                 char_names = clipboard.splitlines()
+                if len(char_names) > 3500:
+                    statusmsg.push_status(
+                        "Skipped excesssively long list of pilots", myapp)
                 for name in char_names:
                     valid = check_name_validity(name)
                     if valid is False:
                         statusmsg.push_status(
-                            "Ignored invalid charnames", myapp)
+                            f"Ignored invalid charnames due to {name}", myapp)
                         break
                 if valid:
                     statusmsg.push_status(
@@ -58,7 +61,7 @@ def watch_clpbd(myapp):
 
 
 def check_name_validity(char_name):
-    if len(char_name) < 3 or len(char_name) > 37 or char_name.count(' ') > 1:
+    if len(char_name) < 3 or len(char_name) > 37 or char_name.count(' ') > 2:
         return False
     regex = r"[^ 'a-zA-Z0-9-]"  # Valid EVE Online character names
     if re.search(regex, char_name):
