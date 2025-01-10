@@ -46,8 +46,8 @@ jobs:
       uses: richardrigutins/replace-in-files@v2.1.9
       with:
         files: '**/*'
-        search-text: @VERSION@
-        replacement-text: ${{ env.VERSION }}
+        search-text: '@VERSION@'
+        replacement-text: '${{ env.VERSION }}'
         
 
             
