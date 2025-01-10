@@ -45,6 +45,7 @@ jobs:
     - name: Update version
       run: |
         echo $VERSION > VERSION
+        sed -i -e "s/@VERSION@/${{ env.VERSION }}/g" installer.cfg
 
     - name: Run pynsist
       run: pynsist installer.cfg
