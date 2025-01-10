@@ -39,10 +39,11 @@ jobs:
       run: pip install pynsist
 
     - name: Determine Build Version
-      id: version
       run: |
         echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
-        VERSION=$(git describe --tags --always --dirty)
+
+    - name: Update version
+      run: |
         echo $VERSION > VERSION
         sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
 
