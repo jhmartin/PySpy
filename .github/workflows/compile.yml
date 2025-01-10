@@ -2,6 +2,8 @@ name: Build Windows Installer
 
 on:
   push:
+    tags:
+      - 'v*'
     branches:
       - main
       - githubactions
@@ -41,6 +43,7 @@ jobs:
       run: |
         echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
         echo $VERSION > VERSION
+        sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
 
     - name: Run pynsist
       run: pynsist installer.cfg
