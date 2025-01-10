@@ -38,17 +38,19 @@ jobs:
     - name: Install pynsist
       run: pip install pynsist
 
-    - name: Get Tag or SHA
-      uses: tenhaus/get-release-or-tag@v2
-      id: tag
+    - name: Determine Build Version
+      run: |
+        echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
 
     - name: Replace in files
       uses: richardrigutins/replace-in-files@v2.1.9
       with:
         files: '**/*'
         search-text: '@VERSION@'
-        replacement-text: ${{ steps.tag.outputs.tag }}
+        replacement-text: '${{ env.VERSION }}'
         
+
+            
     - name: Run pynsist
       run: |
         pynsist installer.cfg
