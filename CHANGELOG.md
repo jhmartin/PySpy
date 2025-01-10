@@ -3,6 +3,7 @@
   * The unfortunate side effect is this is now an 'installer' not 'single file executable'.
 * Limit character lists to 3500
 * Allow up to 2 spaces in a character name
+* Switch to Github Actions build
 
 # 0.5.3
 
