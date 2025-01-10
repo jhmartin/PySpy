@@ -42,10 +42,17 @@ jobs:
       run: |
         echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
 
+    - name: Replace in files
+      uses: richardrigutins/replace-in-files@v2.1.9
+      with:
+        files: '**/*'
+        search-text: @VERSION@
+        replacement-text: ${{ env.VERSION }}
+        
+
+            
     - name: Run pynsist
       run: |
-        echo $VERSION | tee VERSION
-        sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
         pynsist installer.cfg
 
     - name: Upload Artifacts
