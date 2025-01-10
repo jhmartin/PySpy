@@ -42,6 +42,7 @@ jobs:
       id: version
       run: |
         echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
+        VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
         echo $VERSION > VERSION
         sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
 
