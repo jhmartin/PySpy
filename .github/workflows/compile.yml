@@ -45,7 +45,9 @@ jobs:
     - name: Replace in files
       uses: richardrigutins/replace-in-files@v2.1.9
       with:
-        files: '**/*'
+        files: |
+          installer.cfg
+          pyspy/VERSION
         search-text: '@VERSION@'
         replacement-text: '${{ env.VERSION }}'
         
