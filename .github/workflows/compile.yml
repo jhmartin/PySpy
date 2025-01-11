@@ -43,19 +43,23 @@ jobs:
         echo "VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
         echo "VERSION=$(git describe --tags --always --dirty)"
 
+    - name: Check Build Version
+      run: |
+        echo "VERSION=$VERSION"
+
     - name: Replace version in installer
       uses: richardrigutins/replace-in-files@v2.1.9
       with:
         files: 'installer.cfg'
         search-text: '@VERSION@'
-        replacement-text: ${{ env.VERSION }}
+        replacement-text: ${{env.VERSION}}
 
     - name: Replace version in app
       uses: richardrigutins/replace-in-files@v2.1.9
       with:
         files: 'pyspy/VERSION'
         search-text: '@VERSION@'
-        replacement-text: '${{ env.VERSION }}'
+        replacement-text: ${{env.VERSION}}
             
     - name: Run pynsist
       run: |
