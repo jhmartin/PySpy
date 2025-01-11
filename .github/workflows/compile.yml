@@ -38,31 +38,14 @@ jobs:
     - name: Install pynsist
       run: pip install pynsist
 
-    - name: Determine Build Version
+    - name: Set Build Version
       id: ver
       run: |
-        echo "ver=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
-        echo "ver=$(git describe --tags --always --dirty)"
-        echo "GITHUB_ENV=$GITHUB_ENV"
+        VERSION=$(git describe --tags --always --dirty)
+        sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
+        sed -i -e "s/@VERSION@/$VERSION/g" pyspy/VERSION
+        echo "VERSION=$VERSION"
 
-    - name: Check Build Version
-      run: |
-        echo "VERSION=$ver"
-
-    - name: Replace version in installer
-      uses: richardrigutins/replace-in-files@v2.1.9
-      with:
-        files: 'installer.cfg'
-        search-text: '@VERSION@'
-        replacement-text: ${{env.ver}}
-
-    - name: Replace version in app
-      uses: richardrigutins/replace-in-files@v2.1.9
-      with:
-        files: 'pyspy/VERSION'
-        search-text: '@VERSION@'
-        replacement-text: ${{env.ver}}
-            
     - name: Run pynsist
       run: |
         pynsist installer.cfg
