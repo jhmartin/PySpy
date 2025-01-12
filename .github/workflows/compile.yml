@@ -44,9 +44,6 @@ jobs:
         $env:VERSION=$(git describe --tags --always --dirty)
         sed -i -e "s/@VERSION@/$env:VERSION/g" installer.cfg
         sed -i -e "s/@VERSION@/$env:VERSION/g" pyspy/VERSION
-        echo "VERSION=$env:VERSION"
-        cat pyspy/VERSION
-        cat installer.cfg
 
     - name: Run pynsist
       run: |
