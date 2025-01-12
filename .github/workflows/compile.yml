@@ -41,7 +41,7 @@ jobs:
     - name: Set Build Version
       id: ver
       run: |
-        export VERSION=$(git describe --tags --always --dirty)
+        $env:VERSION=$(git describe --tags --always --dirty)
         sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
         sed -i -e "s/@VERSION@/$VERSION/g" pyspy/VERSION
         echo "VERSION=$VERSION"
