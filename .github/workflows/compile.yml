@@ -45,6 +45,8 @@ jobs:
         sed -i -e "s/@VERSION@/$VERSION/g" installer.cfg
         sed -i -e "s/@VERSION@/$VERSION/g" pyspy/VERSION
         echo "VERSION=$env:VERSION"
+        cat pyspy/VERSION
+        cat installer.cfg
 
     - name: Run pynsist
       run: |
