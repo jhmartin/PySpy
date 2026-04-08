@@ -1,4 +1,4 @@
 wxPython==4.2.5
-requests==2.32.5
+requests==2.33.1
 pyperclip==1.11.0
 urllib3==2.6.3 # not directly required, pinned by Snyk to avoid a vulnerability
